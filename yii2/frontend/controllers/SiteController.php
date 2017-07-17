@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Blog;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -72,7 +73,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+//        $blogs=Blog::find()->all();//обращаемся к модели и выбираем всё - не забыть импортировать класс
+        $blogs=Blog::find()->andWhere(['status_id'=>1])->orderBy('sort')->all();//обращаемся к модели и выбираем с статусом 1 + сортировка
+        return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
     }
 
     /**
