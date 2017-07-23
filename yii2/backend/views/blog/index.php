@@ -25,9 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'title',
-//            'text:ntext',
-            'url:url',
-            'status_id',
+//            'text:ntext'
+            ['attribute'=>'url', 'format'=>'url'],
+            [
+                'attribute'=>'status_id',
+                'filter'=>\common\models\Blog::getStatusList(), //[yes,no]
+                'value'=>'statusName', //getStatusName()
+            ],
              'sort',
 
             ['class' => 'yii\grid\ActionColumn'],

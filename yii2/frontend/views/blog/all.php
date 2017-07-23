@@ -8,20 +8,16 @@
 
 /* @var $this yii\web\View */
 /* @var $blogs \common\models\Blog */
+/* @var $dataProvider \yii\data\ActiveDataProvider */
+$blogs=$dataProvider->getModels();
 ?>
 <div class="body-content">
 
-    <div class="row">
-        <?php foreach ($blogs as $blog):?>
-
-            <div class="col-lg-12">
-                <h2><?=$blog->title?></h2>
-
-                <p><?=$blog->text?></p>
-                <?= \yii\helpers\Html::a('Подробнее', ['blog/one', 'url'=>$blog->url], ['class'=>'btn btn-default'])?>
-            </div>
-        <?php endforeach;?>
-
-    </div>
+    <?=
+    \yii\widgets\ListView::widget([
+    'dataProvider' => $dataProvider,
+    'itemView' => '_one',
+    ]);
+    ?>
 
 </div>

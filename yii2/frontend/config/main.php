@@ -9,6 +9,8 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
+    'language' => 'ru',
+    'sourceLanguage' => 'ru',
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
@@ -36,16 +38,29 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-//        /*
         'urlManager' => [
+            'class' => 'codemix\localeurls\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'languages' => ['en', 'ua', 'ru'],
             'rules' => [
                 'blog/<url>'=>'blog/one',
                 'blog'=>'blog/index'
             ],
         ],
-//        */
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/translations',
+                    'sourceLanguage' => 'ru',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        //'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];

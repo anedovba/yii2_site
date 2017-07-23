@@ -31,6 +31,7 @@ class Blog extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'url'], 'required'],
+            [['url'],'unique'],
             [['text'], 'string'],
             [['status_id', 'sort'], 'integer'],
             [['sort'], 'integer', 'max'=>99, 'min'=>1],
@@ -52,5 +53,14 @@ class Blog extends \yii\db\ActiveRecord
             'sort' => 'Сортировка',
 
         ];
+    }
+    public static function getStatusList(){
+        return ['off', 'on'];
+    }
+
+    public function getStatusName()
+    {
+       $list=self::getStatusList();
+       return $list[$this->status_id];
     }
 }

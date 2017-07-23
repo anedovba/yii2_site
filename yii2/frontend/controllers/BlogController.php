@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Blog;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -12,6 +13,21 @@ use yii\web\NotFoundHttpException;
  */
 class BlogController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['items-list'],
+                'duration' => 600,
+                'variations' => [
+                    $_SERVER['HTTP_HOST'],
+                    \Yii::$app->language
+                ],
+            ],
+        ];
+    }
+
 
 
     /**
@@ -22,8 +38,14 @@ class BlogController extends Controller
     public function actionIndex()
     {
 //        $blogs=Blog::find()->all();//обращаемся к модели и выбираем всё - не забыть импортировать класс
-        $blogs=Blog::find()->andWhere(['status_id'=>1])->orderBy('sort')->all();//обращаемся к модели и выбираем с статусом 1 + сортировка
-        return $this->render('all', ['blogs'=>$blogs]);//передаем во вью
+        $blogs=Blog::find()->andWhere(['status_id'=>1])->orderBy('sort');//обращаемся к модели и выбираем с статусом 1 + сортировка
+        $dataProvider = new ActiveDataProvider([
+            'query' => $blogs,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('all', ['dataProvider'=>$dataProvider]);//передаем во вью
     }
     public function actionOne($url)
     {
