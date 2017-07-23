@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use Faker\Provider\Lorem;
 use Yii;
 use common\models\Blog;
 use common\models\BlogSearch;

@@ -10,15 +10,25 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log','gii'],
+    'bootstrap' => ['log','gii', 'debug'],
     'modules' => [
         'gii' => [
             'class' => 'yii\gii\Module',
+        ],
+        'debug' => [
+            'class' => 'yii\debug\Module',
         ],
     ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
+                ],
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
