@@ -78,6 +78,28 @@ class SiteController extends Controller
         return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
     }
 
+    public function actionPropertydetail(){
+        return $this->render('propertydetail');
+    }
+
+public function actionBlog(){
+        return $this->render('blog');
+    }
+    public function actionFaqs(){
+        return $this->render('faqs');
+    }
+public function actionAddproperty(){
+        return $this->render('addproperty');
+    }
+
+    public function actionAgentdetail(){
+        return $this->render('agentdetail');
+    }
+
+    public function actionPropertylisting(){
+        return $this->render('propertylisting');
+    }
+
     /**
      * Logs in a user.
      *
@@ -85,18 +107,19 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
+        return $this->render('loginin');
+//        if (!Yii::$app->user->isGuest) {
+//            return $this->goHome();
+//        }
+//
+//        $model = new LoginForm();
+//        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+//            return $this->goBack();
+//        } else {
+//            return $this->render('login', [
+//                'model' => $model,
+//            ]);
+//        }
     }
 
     /**

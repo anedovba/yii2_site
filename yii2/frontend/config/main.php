@@ -42,7 +42,7 @@ return [
             'class' => 'codemix\localeurls\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'languages' => ['en', 'ua', 'ru'],
+            'languages' => ['en', 'uk', 'ru'],
             'rules' => [
                 'blog/<url>'=>'blog/one',
                 'blog'=>'blog/index'
