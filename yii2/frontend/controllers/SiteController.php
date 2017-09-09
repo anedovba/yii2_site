@@ -74,8 +74,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
 //        $blogs=Blog::find()->all();//обращаемся к модели и выбираем всё - не забыть импортировать класс
-        $blogs=Blog::find()->andWhere(['status_id'=>1])->orderBy('sort')->all();//обращаемся к модели и выбираем с статусом 1 + сортировка
-        return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
+//        $blogs=Blog::find()->andWhere(['status_id'=>1])->orderBy('sort')->all();//обращаемся к модели и выбираем с статусом 1 + сортировка
+
+//        return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
+        return $this->render('index');//передаем во вью
+
     }
 
     public function actionPropertydetail(){
@@ -107,7 +110,37 @@ public function actionAddproperty(){
      */
     public function actionLogin()
     {
-        return $this->render('loginin');
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $login_model=new LoginForm();
+
+        if(Yii::$app->request->post('LoginForm')){
+            $login_model->attributes=Yii::$app->request->post('LoginForm');
+            if ($login_model->validate()){
+
+                $login_model->login();
+                return $this->goHome();
+            }
+
+        }
+        $signup_model = new SignupForm();
+
+        if ($signup_model->load(Yii::$app->request->post())) {
+            $signup_model->attributes=Yii::$app->request->post('SignupForm');
+
+            if ($signup_model->validate()) {
+                if ($user = $signup_model->signup()) {
+                    if (Yii::$app->getUser()->login($user)) {
+                        return $this->goHome();
+                    }
+                }
+
+            }
+        }
+        return $this->render('loginin', ['login_model'=>$login_model, 'signup_model'=>$signup_model]);
+
+
 //        if (!Yii::$app->user->isGuest) {
 //            return $this->goHome();
 //        }

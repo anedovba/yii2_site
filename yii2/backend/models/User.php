@@ -1,55 +1,40 @@
 <?php
-namespace common\models;
 
-use common\models\UserRole;
-use common\models\UserStatus;
+namespace backend\models;
+
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
- * User model
+ * This is the model class for table "user".
  *
  * @property integer $id
  * @property string $username
+ * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
- * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $subscribe
  * @property integer $role
- * @property string $password write-only password
+ * @property integer $image
  *
  * @property UserRole $role0
  * @property UserStatus $status0
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends \yii\db\ActiveRecord
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
-
-
+    public $file;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
+        return 'user';
     }
 
     /**
@@ -62,12 +47,13 @@ class User extends ActiveRecord implements IdentityInterface
             [['status', 'created_at', 'updated_at', 'subscribe', 'role'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
+            [['image'], 'string', 'max' => 100],
+            [['file'], 'image'],
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['role'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['role' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => UserStatus::className(), 'targetAttribute' => ['status' => 'id']],
-
         ];
     }
 
@@ -149,6 +135,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -157,19 +144,20 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'id' => 'ID',
             'username' => 'Имя пользователя',
-            'email' => 'Почтовый ящик',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
             'status' => 'Статус',
             'created_at' => 'Создан',
             'updated_at' => 'Изменен',
             'subscribe' => 'Подписка на новости',
             'role' => 'Роль',
-
+            'image'=>'Картинка',
+            'file'=>'Картинка',
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
@@ -223,31 +211,74 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRole()
+    public function getRole0()
     {
         return $this->hasOne(UserRole::className(), ['id' => 'role']);
     }
 
-//    public function setRole($role)
-//    {
-//        $this->role=$role;
-//    }
-
-
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStatus()
+    public function getStatus0()
     {
         return $this->hasOne(UserStatus::className(), ['id' => 'status']);
     }
 
-    /**
-     * @inheritdoc
-     * @return UserRoleQuery the active query used by this AR class.
-     */
-    public static function find()
+    public static function getSubscribeList(){
+
+        return ['да', 'нет'];
+    }
+
+    public function getSubscribeName(){
+        $list=$this->getSubscribeList();
+        return $list[$this->subscribe];
+    }
+    public function getSmallImage(){
+        $dir=str_replace('.admin','', Url::home(true). 'uploads/images/50x50/' );
+        return $dir.$this->image;
+    }
+    public function beforeSave($insert)
     {
-        return new UserRoleQuery(get_called_class());
+
+        if($file = UploadedFile::getInstance($this, 'file')){
+            $dir = Yii::getAlias('@images').'/';
+
+            if (!is_dir($dir . $this->image)) {
+                if(!file_exists($dir)){
+                    mkdir($dir, 0777);
+                    chmod($dir, 0777);
+                }
+                if(!file_exists($dir. '50x50/')){
+                    mkdir($dir. '50x50/', 0777);
+                    chmod($dir. '50x50/', 0777);
+                }
+                if(!is_dir($dir. '800x/')){
+                    mkdir($dir. '800x/', 0777);
+                    chmod($dir. '800x/', 0777);
+                }
+                if (is_file($dir . $this->image)) {
+                    unlink($dir . $this->image);
+                }
+                if (is_file($dir . '50x50/' . $this->image)) {
+                    unlink($dir . '50x50/' . $this->image);
+                }
+                if (is_file($dir . '800x/' . $this->image)) {
+                    unlink($dir . '800x/' . $this->image);
+                }
+            }
+            $this->image=strtotime('now').'_'.Yii::$app->getSecurity()->generateRandomString(6).'.'.$file->extension;
+            $file->saveAs($dir.$this->image);
+            $imag=Yii::$app->image->load($dir . $this->image);
+            $imag->background('#fff',0);
+            $imag->resize('50', '50', Yii\image\drivers\Image::INVERSE);
+            $imag->crop('50','50');
+            $imag->save($dir.'50x50/'.$this->image, 90);
+            $imag=Yii::$app->image->load($dir . $this->image);
+            $imag->background('#fff',0);
+            $imag->resize('800', '800', Yii\image\drivers\Image::INVERSE);
+            $imag->save($dir.'800x/'.$this->image, 90);
+
+        }
+        return parent::beforeSave($insert);
     }
 }

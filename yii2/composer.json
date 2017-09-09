@@ -20,7 +20,12 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "vova07/yii2-imperavi-widget": "*",
         "dmstr/yii2-adminlte-asset": "2.*",
-        "codemix/yii2-localeurls": "^1.4"
+        "codemix/yii2-localeurls": "^1.4",
+        "kartik-v/yii2-datecontrol": "dev-master",
+        "kartik-v/yii2-widgets": "^3.4",
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-helpers": "dev-master",
+        "yurkinx/yii2-image": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

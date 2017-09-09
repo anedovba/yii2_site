@@ -1,9 +1,14 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $signup_model \frontend\models\SignupForm */
+/* @var $login_model \common\models\LoginForm */
 
 use yii\helpers\Html;
-use \yii\helpers\Url;
+use yii\bootstrap\ActiveForm;
+
+
 
 $this->title = Yii::t('app', 'Вход');
 ?>
@@ -14,62 +19,58 @@ $this->title = Yii::t('app', 'Вход');
         <div class="col-sm-5 margin30">
             <div class="login-reg-box">
                 <h4><?= Yii::t('app', 'Вход')?></h4>
-                <form>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" class="form-control" placeholder="<?= Yii::t('app', 'Имя')?>">
-                    </div><br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="<?= Yii::t('app', 'Пароль')?>">
+                        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                        <?= $form->field($login_model, 'username',
+                            ['template' => "<div  class=\"input-group\"><span class='input-group-addon' style='color: #555'><i class='fa fa-user'></i></span>{input}</div>\n{hint}\n{error}"])->textInput(['placeholder'=>Yii::t('app', 'Имя')]); ?>
+
+                        <?= $form->field($login_model, 'password',
+                            ['template' => "<div  class=\"input-group\"><span class='input-group-addon' style='color: #555'><i class='fa fa-lock'></i></span>{input}</div>\n{hint}\n{error}"])->passwordInput(['placeholder'=>Yii::t('app', 'Пароль')]) ?>
+
+                        <?= $form->field($login_model, 'rememberMe')->checkbox(['label' =>Yii::t('app', 'Запомнить меня').'!'] ) ?>
+
+
+
+
+                <div class="clearfix">
+                            <?= Html::submitButton(Yii::t('app', 'Войти'), ['class' => 'btn btn-red btn-lg pull-left', 'name' => 'login-button']) ?>
+                            <?= Html::a(Yii::t('app', 'Забыли пароль?'), ['site/request-password-reset'], ['class'=>'pull-right']) ?>
+                </div>
+                <div class="divide20"></div>
+                <div class="form-bottom">
+                    <p><?= Yii::t('app', 'Войти через социальную сеть')?></p>
+                    <div class="social-buttons">
+                        <a href="#" class="facebook social-btn"><i class="fa fa-facebook"></i> Facebook</a>
+                        <a href="#" class="g-plus social-btn"><i class="fa fa-google-plus"></i> Google +</a>
                     </div>
-                    <div class="checkbox">
-                        <input type="checkbox"> <?= Yii::t('app', 'Запомнить меня')?>!
-                    </div>
-                    <div class="clearfix">
-                        <button type="submit" class="btn btn-red btn-lg pull-left"><?= Yii::t('app', 'Войти')?></button>
-                        <a href="#" class="pull-right"><?= Yii::t('app', 'Забыли пароль')?>?</a>
-                    </div>
-                    <div class="divide20"></div>
-                    <div class="form-bottom">
-                        <p><?= Yii::t('app', 'Войти через социальную сеть')?></p>
-                        <div class="social-buttons">
-                            <a href="#" class="facebook social-btn"><i class="fa fa-facebook"></i> Facebook</a>
-                            <a href="#" class="g-plus social-btn"><i class="fa fa-google-plus"></i> Google +</a>
-                        </div>
-                    </div>
-                </form>
+                </div>
+                <?php ActiveForm::end(); ?>
+
             </div>
 
         </div>
         <div class="col-sm-6 col-sm-offset-1">
+
             <div class="login-reg-box">
                 <h4><?= Yii::t('app', 'Регистрация')?></h4>
-                <form>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" class="form-control" placeholder="<?= Yii::t('app', 'Имя')?>">
-                    </div><br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                        <input type="email" class="form-control" placeholder="Email">
-                    </div><br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="<?= Yii::t('app', 'Пароль')?>">
-                    </div><br>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" placeholder="<?= Yii::t('app', 'Повторить пароль')?>">
-                    </div>
-                    <div class="checkbox">
-                        <input type="checkbox"> <?= Yii::t('app', 'Подписаться на рассылку')?>
-                    </div>
-                    <div class="clearfix">
-                        <button type="submit" class="btn btn-red btn-lg pull-left"><?= Yii::t('app', 'Отправить')?></button>
-                    </div>
+                <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                </form>
+                <?= $form->field($signup_model, 'username',
+                    ['template' => "<div  class=\"input-group\"><span class='input-group-addon' style='color: #555'><i class='fa fa-user'></i></span>{input}</div>\n{hint}\n{error}"])->textInput(['placeholder'=>Yii::t('app', 'Имя')]); ?>
+
+                <?= $form->field($signup_model, 'email',
+                                    ['template' => "<div  class=\"input-group\"><span class='input-group-addon' style='color: #555'><i class='fa fa-envelope'></i></span>{input}</div>\n{hint}\n{error}"])->input('email', ['placeholder'=>Yii::t('app', 'Email')]); ?>
+
+                <?= $form->field($signup_model, 'password',
+                                    ['template' => "<div  class=\"input-group\"><span class='input-group-addon' style='color: #555'><i class='fa fa-lock'></i></span>{input}</div>\n{hint}\n{error}"])->passwordInput(['placeholder'=>Yii::t('app', 'Пароль')]); ?>
+
+                <?= $form->field($signup_model, 'subscribe')->checkbox(['label' =>Yii::t('app', 'Подписаться на рассылку')] ) ?>
+
+                <div class="form-group">
+                    <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'btn btn-red btn-lg pull-left', 'name' => 'signup-button']) ?>
+                </div>
+
+                <?php ActiveForm::end(); ?>
+                <div class="divide40"></div>
             </div>
 
         </div>

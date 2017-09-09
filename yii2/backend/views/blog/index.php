@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
 //            'text:ntext'
             ['attribute'=>'url', 'format'=>'url'],
-            [
+                [
                 'attribute'=>'status_id',
                 'filter'=>\common\models\Blog::getStatusList(), //[yes,no]
                 'value'=>'statusName', //getStatusName()

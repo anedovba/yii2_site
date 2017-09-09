@@ -12,7 +12,9 @@ $this->title = Yii::t('app', 'Добавить объект');
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2 text-center">
                     <h3><?= Yii::t('app', 'Добавьте ваш объект')?></h3>
+                    <?php if(Yii::$app->user->isGuest):?>
                     <div class="alert alert-warning"><?= Yii::t('app', 'Вы должны авторизоваться, прежде чем добавить ваш объект')?></div>
+                    <?php endif;?>
                 </div>
             </div> <div class="divide70"></div>
 
@@ -218,13 +220,15 @@ $this->title = Yii::t('app', 'Добавить объект');
                         </label> 
                     </div>
                 </div>
-                
+                <?php if(!Yii::$app->user->isGuest):?>
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-red btn-lg"><?= Yii::t('app', 'Добавить объект')?></button>
                 </div>
+                <?php endif;?>
             </form>
         </div>
         <div class="divide70"></div>
+<?php if(Yii::$app->user->isGuest):?>
         <div class="call-to-action">
             <div class="container">
                 <div class="row">
@@ -237,3 +241,4 @@ $this->title = Yii::t('app', 'Добавить объект');
                 </div>
             </div>
         </div>
+<?php endif;?>

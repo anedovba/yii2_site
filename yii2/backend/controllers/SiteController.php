@@ -60,7 +60,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (Yii::$app->getUser()->identity->role==1&& !Yii::$app->user->isGuest) {
+//            var_dump(Yii::$app->getUser());
+            return $this->render('index');
+        }
+        else{
+            Yii::$app->user->logout();
+            return $this->goBack();
+        }
     }
 
     /**

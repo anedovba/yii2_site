@@ -540,7 +540,7 @@ $this->title = Yii::t('app', 'Главная');
                 <h3><?= Yii::t('app', 'Хотите видеть Вашу недвижимость тут')?>? </h3>
             </div>
             <div class="col-sm-4 text-center">
-                <a href="#"><?= Yii::t('app', 'Добавить объект сейчас')?></a>
+                <a href="/site/addproperty"><?= Yii::t('app', 'Добавить объект сейчас')?></a>
             </div>
         </div>
     </div>

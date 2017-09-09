@@ -105,7 +105,9 @@ $this->title = 'Контакты';
         </div><!--row-->
     </div>
     <div class="divide70"></div>
+    <?php if(Yii::$app->user->isGuest):?>
     <div class="call-to-action">
+
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 text-center">
@@ -117,6 +119,7 @@ $this->title = 'Контакты';
             </div>
         </div>
     </div>
+    <?php endif;?>
 
     <script type="text/javascript">
         jQuery(document).ready(function ($) {

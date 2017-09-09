@@ -8,6 +8,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 
 AppAsset::register($this);
 ?>
@@ -34,11 +36,30 @@ AppAsset::register($this);
             </div>
             <div class="col-sm-6 col-md-6">
                 <div class="top-social">
-                    <a href="https://www.facebook.com/red.kiev.ua/" target="_blank"><i class="fa fa-facebook"></i></a></div>
-                <div style="color: white; float: right;"><a style="color: white" href="/site/login"><?=Yii::t('app','Войти')?> <i class="fa fa-sign-in"></i></a></div>
+                    <a href="" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="" target="_blank"><i class="fa fa-google"></i></a>
+                </div>
+               <?php if (Yii::$app->user->isGuest):?>
+                <div style="color: white; float: right;"><a style="color: white" href="/site/login"><?=Yii::t('app','Войти')?> <i class="fa fa-sign-in"></i></a>
+                    </div>
                 <!--                    <a href="#"><i class="fa fa-twitter"></i></a>-->
                 <!--                    <a href="#"><i class="fa fa-youtube-play"></i></a>-->
-
+                   <?php else:?>
+<!--                   <div style="color: white; float: right;"><a style="color: white" href="/site/logout">--><?//=Yii::t('app','Выйти')?><!-- <i class="fa fa-sign-out"></i></a>-->
+<!--                   </div>-->
+                   <?php
+                   $menuItems[] = '<div style="color: white; float: right;">'
+                       . Html::beginForm(['/site/logout'], 'post')
+                       . Html::submitButton(Yii::t('app','Выйти').' (' . Yii::$app->user->identity->username . ')',['style' => 'color: white; background: inherit; border:0']
+                       ).' <i class="fa fa-sign-out"></i>'
+                       . Html::endForm()
+                       . '</div>';
+                   echo Nav::widget([
+                       'options' => ['class' => 'navbar-nav navbar-right'],
+                       'items' => $menuItems,
+                   ]);
+                   ?>
+                <?php endif;?>
             </div>
         </div>
     </div>

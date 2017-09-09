@@ -105,6 +105,7 @@ $this->title = Yii::t('app', 'Статьи');
 
         </div>
         <div class="divide70"></div>
+<?php if(Yii::$app->user->isGuest):?>
         <div class="call-to-action">
             <div class="container">
                 <div class="row">
@@ -117,3 +118,4 @@ $this->title = Yii::t('app', 'Статьи');
                 </div>
             </div>
         </div>
+<?php endif;?>
