@@ -7,6 +7,8 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -24,6 +26,7 @@ use yii\web\IdentityInterface;
  * @property integer $subscribe
  * @property integer $role
  * @property string $password write-only password
+ * @property integer $image
  *
  * @property UserRole $role0
  * @property UserStatus $status0
@@ -63,6 +66,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
+            [['image'], 'string', 'max' => 100],
+            [['file'], 'image'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['role'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['role' => 'id']],
@@ -249,5 +254,13 @@ class User extends ActiveRecord implements IdentityInterface
     public static function find()
     {
         return new UserRoleQuery(get_called_class());
+    }
+    public static function getUserList(){
+
+        return ArrayHelper::map(self::find()->where('role=3')->all(),'id', 'username');
+    }
+    public function getSmallImage(){
+        $dir=str_replace('.admin','', Url::home(true). 'uploads/images/50x50/' );
+        return $dir.$this->image;
     }
 }

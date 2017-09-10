@@ -233,6 +233,7 @@ class User extends \yii\db\ActiveRecord
         $list=$this->getSubscribeList();
         return $list[$this->subscribe];
     }
+
     public function getSmallImage(){
         $dir=str_replace('.admin','', Url::home(true). 'uploads/images/50x50/' );
         return $dir.$this->image;
@@ -281,4 +282,5 @@ class User extends \yii\db\ActiveRecord
         }
         return parent::beforeSave($insert);
     }
+
 }

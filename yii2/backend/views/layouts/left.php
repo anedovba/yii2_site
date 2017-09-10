@@ -32,7 +32,7 @@
                 'items' => [
 //                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Пользователи', 'icon' => 'user', 'url' => ['/user']],
-                    ['label' => 'Агенты', 'icon' => 'user-circle', 'url' => ['/gii']],
+                    ['label' => 'Агенты', 'icon' => 'user-circle', 'url' => ['/agents']],
                     ['label' => 'Объекты', 'icon' => 'home', 'url' => ['/gii']],
                     [
                             'label' => 'Страницы', 'icon' => 'file-text', 'url' => ['/gii'],

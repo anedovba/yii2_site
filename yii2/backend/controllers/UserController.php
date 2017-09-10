@@ -93,14 +93,7 @@ class UserController extends Controller
             ]);
         }
     }
-    function vd($var, $exit = true)
-    {
 
-        echo '<pre>';
-        var_dump($var);
-        if ($exit)
-            die;
-    }
 
     /**
      * Deletes an existing User model.
