@@ -242,7 +242,7 @@ AppAsset::register($this);
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
+                            <img src="<?= Yii::$app->user->identity->smallImage ?>" class="img-circle"
                                  alt="User Image"/>
 
                             <p>

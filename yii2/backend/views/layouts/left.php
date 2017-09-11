@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                <img src="<?=Yii::$app->user->identity->smallImage?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->username?></p>
@@ -32,7 +32,7 @@
                 'items' => [
 //                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Пользователи', 'icon' => 'user', 'url' => ['/user']],
-                    ['label' => 'Агенты', 'icon' => 'user-circle', 'url' => ['/agents']],
+                    ['label' => 'Агенты', 'icon' => 'user-circle', 'url' => ['/agent']],
                     ['label' => 'Объекты', 'icon' => 'home', 'url' => ['/gii']],
                     [
                             'label' => 'Страницы', 'icon' => 'file-text', 'url' => ['/gii'],

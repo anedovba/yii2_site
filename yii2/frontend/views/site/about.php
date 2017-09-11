@@ -1,6 +1,8 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $agents \common\models\Agents */
+/* @var $dataProvider \yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
 use \yii\helpers\Url;
@@ -73,46 +75,20 @@ $this->title =  Yii::t('app', 'О нас');
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3 col-sm-6 margin30">
-            <div class="agent-box">
-                <img src="/img/team-1.jpg" class="img-circle img-responsive" width="200" alt="">
-                <h3>Mitali Raj</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor diam in quam molestie ullamcorper.
-                </p>
-                <a href="/site/agentdetail"><?= Yii::t('app', 'Посмотреть профайл')?></a>
-            </div>
-        </div><!--agent col-->
-        <div class="col-md-3 col-sm-6 margin30">
-            <div class="agent-box">
-                <img src="/img/team-2.jpg" class="img-circle img-responsive" width="200" alt="">
-                <h3>Mitali Raj</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor diam in quam molestie ullamcorper.
-                </p>
-                <a href="/site/agentdetail"><?= Yii::t('app', 'Посмотреть профайл')?></a>
-            </div>
-        </div><!--agent col-->
-        <div class="col-md-3 col-sm-6 margin30">
-            <div class="agent-box">
-                <img src="/img/team-3.jpg" class="img-circle img-responsive" width="200" alt="">
-                <h3>Mitali Raj</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor diam in quam molestie ullamcorper.
-                </p>
-                <a href="/site/agentdetail"><?= Yii::t('app', 'Посмотреть профайл')?></a>
-            </div>
-        </div><!--agent col-->
-        <div class="col-md-3 col-sm-6 margin30">
-            <div class="agent-box">
-                <img src="/img/team-4.jpg" class="img-circle img-responsive" width="200" alt="">
-                <h3>Mitali Raj</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor diam in quam molestie ullamcorper.
-                </p>
-                <a href="/site/agentdetail"><?= Yii::t('app', 'Посмотреть профайл')?></a>
-            </div>
-        </div><!--agent col-->
+        <div class="row">
+            <?php foreach($agents as $agent):?>
+                <div class="col-md-4 col-sm-6 margin30">
+                    <div class="agent-box">
+                        <img src="/uploads/images/800x/<?=$agent->user->image?>" class="img-circle img-responsive" width="200" alt="">
+                        <h3><?=$agent->name?></h3>
+                        <p>
+                            <?=$agent->position?>
+                        </p>
+                        <a href="/site/agentdetail?id=<?=$agent->id?>"><?= Yii::t('app', 'Посмотреть профайл')?></a>
+                    </div>
+                </div><!--agent col-->
+            <?php endforeach;?>
+        </div>
     </div>
 </div>
 <div class="divide70"></div>

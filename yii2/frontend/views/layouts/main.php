@@ -10,7 +10,7 @@ use common\widgets\Alert;
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-
+use common\widgets\WLang;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -28,6 +28,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
+
 <div class="top-bar">
     <div class="container">
         <div class="row">
@@ -38,9 +39,12 @@ AppAsset::register($this);
                 <div class="top-social">
                     <a href="" target="_blank"><i class="fa fa-facebook"></i></a>
                     <a href="" target="_blank"><i class="fa fa-google"></i></a>
+                    <?= $this->render('main/select-language') ?>
+                </div>
+                <div class="top-social" style="color: white; float: right;">
                 </div>
                <?php if (Yii::$app->user->isGuest):?>
-                <div style="color: white; float: right;"><a style="color: white" href="/site/login"><?=Yii::t('app','Войти')?> <i class="fa fa-sign-in"></i></a>
+                <div style="color: white; float: right;"><a style="color: white" href="/site/login">  <?=Yii::t('app','Войти')?> <i class="fa fa-sign-in"></i></a>
                     </div>
                 <!--                    <a href="#"><i class="fa fa-twitter"></i></a>-->
                 <!--                    <a href="#"><i class="fa fa-youtube-play"></i></a>-->

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "lav45/yii2-translated-behavior": "^1.4"
+    }
+}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c441f6cb2506818e1203ceee8b35eef8",
+    "content-hash": "6f9d8bc72666702b8413fd47a4a7a5de",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1923,6 +1923,54 @@
                 "yii2"
             ],
             "time": "2014-11-09T19:54:17+00:00"
+        },
+        {
+            "name": "lav45/yii2-translated-behavior",
+            "version": "1.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LAV45/yii2-translated-behavior.git",
+                "reference": "a3fa375b0c14b94290f2ffd5c4f2e7202311f5fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LAV45/yii2-translated-behavior/zipball/a3fa375b0c14b94290f2ffd5c4f2e7202311f5fa",
+                "reference": "a3fa375b0c14b94290f2ffd5c4f2e7202311f5fa",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "2.0.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "lav45\\translate\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Loban",
+                    "email": "lav451@gmail.com"
+                }
+            ],
+            "description": "This extension allows you to quickly and simple enough to add translations for any ActiveRecord models.",
+            "homepage": "https://github.com/lav45/yii2-translated-behavior",
+            "keywords": [
+                "Behavior",
+                "extension",
+                "translated",
+                "yii2"
+            ],
+            "time": "2017-03-10T00:05:02+00:00"
         },
         {
             "name": "rmrevin/yii2-fontawesome",

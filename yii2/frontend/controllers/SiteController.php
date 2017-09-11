@@ -1,9 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Agents;
 use common\models\Blog;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -13,6 +15,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Agent;
+use lav45\translate\models\Lang;
 
 /**
  * Site controller
@@ -73,11 +77,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $blogs=Blog::find()->all();//обращаемся к модели и выбираем всё - не забыть импортировать класс
-//        $blogs=Blog::find()->andWhere(['status_id'=>1])->orderBy('sort')->all();//обращаемся к модели и выбираем с статусом 1 + сортировка
-
+        $agents=Agent::find()->all();
 //        return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
-        return $this->render('index');//передаем во вью
+        return $this->render('index', ['agents'=>$agents]);//передаем во вью
 
     }
 
@@ -95,8 +97,12 @@ public function actionAddproperty(){
         return $this->render('addproperty');
     }
 
-    public function actionAgentdetail(){
-        return $this->render('agentdetail');
+    public function actionAgentdetail($id){
+
+        if($agent=Agent::find()->andWhere(['id'=>$id])->one()){
+            return $this->render('agentdetail', ['agent'=>$agent]);//передаем во вью
+        }
+        throw new NotFoundHttpException('такого агента не существует');
     }
 
     public function actionPropertylisting(){
@@ -197,7 +203,8 @@ public function actionAddproperty(){
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        $agents=Agent::find()->all();
+        return $this->render('about', ['agents'=>$agents]);
     }
 
     /**

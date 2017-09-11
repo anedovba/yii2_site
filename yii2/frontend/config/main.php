@@ -5,6 +5,7 @@ $params = array_merge(
     require(__DIR__ . '/params.php'),
     require(__DIR__ . '/params-local.php')
 );
+use lav45\translate\models\Lang;
 
 return [
     'id' => 'app-frontend',
@@ -39,6 +40,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
+//            [
             'class' => 'codemix\localeurls\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -47,6 +49,25 @@ return [
                 'blog/<url>'=>'blog/one',
                 'blog'=>'blog/index'
             ],
+//],
+//            ['class' => 'lav45\translate\web\UrlManager',
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//            'rules' => [
+//                [
+//                    'class' => 'yii\web\UrlRule', // If there is no need to substitute the language, you can use the base class
+//                    'pattern' => '',
+//                    'route' => 'site/index',
+//                ],
+//                [
+//                    'pattern' => '<_lang:' . Lang::PATTERN . '>/<id:\d+>',
+//                    'route' => 'site/view',
+//                ],
+//                [
+//                    'pattern' => '<_lang:' . Lang::PATTERN . '>',
+//                    'route' => 'site/index',
+//                ]
+//            ],]
         ],
         'i18n' => [
             'translations' => [

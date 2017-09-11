@@ -25,7 +25,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'created_at', ['inputOptions' => ['value'=>$model->isNewRecord ?$_SERVER['REQUEST_TIME']:$model->created_at]] , ['options'=>['class'=>'col-xs-6']])->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'updated_at', ['options'=>['class'=>'col-xs-6']], ['inputOptions' => ['value'=>$_SERVER['REQUEST_TIME']]])->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'updated_at', ['inputOptions' => ['value'=>$_SERVER['REQUEST_TIME']]], ['options'=>['class'=>'col-xs-6']])->hiddenInput()->label(false) ?>
 
     <?= $form->field($model, 'subscribe', ['options'=>['class'=>'col-xs-6']])->dropDownList(\backend\models\User::getSubscribeList()) ?>
 

@@ -1,7 +1,9 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $agent \common\models\Agent */
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use \yii\helpers\Url;
 
@@ -71,17 +73,17 @@ $this->title = Yii::t('app', 'Карта агента');
                             <div class="image">
                                 <div class="content">
                                     <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/team-1.jpg" class="img-responsive" alt="propety">
+                                    <img src="/uploads/images/800x/<?=$agent->user->image?>" class="img-responsive" alt="propety">
 
                                 </div><!--content-->
                             </div><!--image-->
                         </div><!--image col-->
                         <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Имя')?></a></h3>
-                            <em>+38 067 111 11 11</em><br>
+                            <h3><a href="#"><?= $agent->name?></a></h3>
+                            <em><?= $agent->phone?></em><br>
                             <a href="#contactform" class="btn btn-default"><?= Yii::t('app', 'Связаться со мной')?></a>
                             <p>
-                                <?= Yii::t('app', 'Специалист по продаже квартир')?>
+                                <?= $agent->position?>
                             </p>
                             <p class="agent-social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
@@ -90,7 +92,7 @@ $this->title = Yii::t('app', 'Карта агента');
                                 <a href="#"><i class="fa fa-instagram"></i></a>
                             </p> 
                             <p>
-                                <a href="#">name@red.kiev.ua</a>
+                                <a href="#"><?= $agent->user->email?></a>
                             </p>
                         </div>
                     </div><!--property listing row-->
@@ -295,14 +297,11 @@ $this->title = Yii::t('app', 'Карта агента');
                                 <input type="email" class="form-control" placeholder="Email">   
                             </div>
                             <div class="form-group">
+
                                 <section class=" select-option">
-                                    <select class="cs-select cs-skin-elastic">
-                                        <option value="" disabled selected>Agent Name</option>
-                                        <option value="">Agent Name</option>
-                                        <option value="">Agent Name</option>
-                                        <option value="">Agent Name</option>
-                                        <option value="">Agent Name</option>
-                                    </select>  
+                                    <?= Html::activeDropDownList($agent, 'name',
+                                        ArrayHelper::map(\common\models\Agent::find()->all(), 'id', 'name'), ['class'=>"cs-select cs-skin-elastic"]) ?>
+
                                 </section>
                             </div>
                             <div class="form-group">
