@@ -37,9 +37,16 @@
                     [
                             'label' => 'Страницы', 'icon' => 'file-text', 'url' => ['/gii'],
                         'items'=>[
-                                ['label' => 'Бухгалтения и право', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                                ['label' => 'Бухгалтерия и право', 'icon' => 'file-code-o', 'url' => ['/gii'],],
                                 ['label' => 'Экспертная оценка', 'icon' => 'file-code-o', 'url' => ['/gii'],],
                                 ['label' => 'Консалтинг', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+
+                        ]
+                    ],
+                    [
+                        'label' => 'Справочник', 'icon' => 'file-text-o',
+                        'items'=>[
+                            ['label' => 'Города', 'url' => ['/country'],],
 
                         ]
                     ],
