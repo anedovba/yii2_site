@@ -31,18 +31,18 @@
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
 //                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Пользователи', 'icon' => 'user', 'url' => ['/user']],
-                    ['label' => 'Агенты', 'icon' => 'user-circle', 'url' => ['/agent']],
-                    ['label' => 'Объекты', 'icon' => 'home', 'url' => ['/gii']],
-                    [
-                            'label' => 'Страницы', 'icon' => 'file-text', 'url' => ['/gii'],
-                        'items'=>[
-                                ['label' => 'Бухгалтерия и право', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                                ['label' => 'Экспертная оценка', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                                ['label' => 'Консалтинг', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-
-                        ]
-                    ],
+//                    ['label' => 'Пользователи', 'icon' => 'user', 'url' => ['/user']],
+//                    ['label' => 'Агенты', 'icon' => 'user-circle', 'url' => ['/agent']],
+//                    ['label' => 'Объекты', 'icon' => 'home', 'url' => ['/gii']],
+//                    [
+//                            'label' => 'Страницы', 'icon' => 'file-text', 'url' => ['/gii'],
+//                        'items'=>[
+//                                ['label' => 'Бухгалтерия и право', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+//                                ['label' => 'Экспертная оценка', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+//                                ['label' => 'Консалтинг', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+//
+//                        ]
+//                    ],
                     [
                         'label' => 'Справочник', 'icon' => 'file-text-o',
                         'items'=>[

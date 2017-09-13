@@ -21,12 +21,64 @@ AppAsset::register($this);
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+        <ul class="nav navbar-nav">
 
-        <div class="navbar-custom-menu">
 
-            <ul class="nav navbar-nav">
+        <li class="pull-left">
+            <a href="/user" >
+                <i class="fa fa-user"></i>
+                Пользователи
+<!--                <span class="label label-success">4</span>-->
+            </a>
+        </li>
+            <li class="pull-left">
+                <a href="/agent" >
+                    <i class="fa fa-user-circle"></i>
+                    Агенты
+                    <!--                <span class="label label-success">4</span>-->
+                </a>
+            </li>
+            <li class="pull-left">
+                <a href="/gii" >
+                    <i class="fa fa-home"></i>
+                    Объекты
+                    <!--                <span class="label label-success">4</span>-->
+                </a>
+            </li>
 
-                <!-- Messages: style can be found in dropdown.less-->
+            <li class="dropdown messages-menu pull-left">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-file-text"></i>
+                                        Страницы
+                                    </a>
+                <ul class="dropdown-menu">
+                    <li class="header">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-file-text"></i>
+                            Бухгалтерия и право
+                        </a>
+                    </li>
+                    <li class="header">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-file-text"></i>
+                            Экспертная оценка
+                        </a>
+                    </li>
+                    <li class="header">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-file-text"></i>
+                            Консалтинг
+                        </a>
+                    </li>
+                </ul>
+            </li>
+                        </ul>
+                        <div class="navbar-custom-menu">
+
+                            <ul class="nav navbar-nav">
+
+
+                                <!-- Messages: style can be found in dropdown.less-->
 <!--                <li class="dropdown messages-menu">-->
 <!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
 <!--                        <i class="fa fa-envelope-o"></i>-->
