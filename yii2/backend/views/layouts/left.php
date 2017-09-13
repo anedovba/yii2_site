@@ -47,6 +47,7 @@
                         'label' => 'Справочник', 'icon' => 'file-text-o',
                         'items'=>[
                             ['label' => 'Страны', 'url' => ['/country'],],
+                            ['label' => 'Область/регион', 'url' => ['/region'],],
                             ['label' => 'Города', 'url' => ['/city'],],
 
                         ]
