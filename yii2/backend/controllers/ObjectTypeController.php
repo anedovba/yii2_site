@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\City;
-use common\models\CitySearch;
+use common\models\ObjectType;
+use common\models\ObjectTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use yii\data\ActiveDataProvider;
 use common\models\Lang;
 
 /**
- * CityController implements the CRUD actions for City model.
+ * ObjectTypeController implements the CRUD actions for ObjectType model.
  */
-class CityController extends Controller
+class ObjectTypeController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,19 +32,20 @@ class CityController extends Controller
     }
 
     /**
-     * Lists all City models.
+     * Lists all ObjectType models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CitySearch();
+        $searchModel = new ObjectTypeSearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => City::find()
+            'query' => ObjectType::find()
                 ->with([
                     'currentTranslate', // loadabing data associated with the current translation
                     'hasTranslate' // need to display the status was translated page
                 ]),
         ]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -53,7 +54,7 @@ class CityController extends Controller
     }
 
     /**
-     * Displays a single City model.
+     * Displays a single ObjectType model.
      * @param integer $id
      * @return mixed
      */
@@ -65,13 +66,13 @@ class CityController extends Controller
     }
 
     /**
-     * Creates a new City model.
+     * Creates a new ObjectType model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new City();
+        $model = new ObjectType();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'lang_id'=>$model->language]);
@@ -83,7 +84,7 @@ class CityController extends Controller
     }
 
     /**
-     * Updates an existing City model.
+     * Updates an existing ObjectType model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -102,7 +103,7 @@ class CityController extends Controller
     }
 
     /**
-     * Deletes an existing City model.
+     * Deletes an existing ObjectType model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -115,15 +116,15 @@ class CityController extends Controller
     }
 
     /**
-     * Finds the City model based on its primary key value.
+     * Finds the ObjectType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return City the loaded model
+     * @return ObjectType the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = City::findOne($id)) !== null) {
+        if (($model = ObjectType::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
