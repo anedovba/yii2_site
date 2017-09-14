@@ -5,6 +5,7 @@ namespace common\models;
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
 use lav45\translate\TranslatedBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "agent".
@@ -94,5 +95,9 @@ class Agent extends ActiveRecord
     public function getAgentLangs()
     {
         return $this->hasMany(AgentLang::className(), ['agent_id' => 'id']);
+    }
+    public static function getAgentList(){
+
+        return ArrayHelper::map(self::find()->all(),'id', 'name');
     }
 }

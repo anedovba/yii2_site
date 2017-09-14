@@ -39,7 +39,7 @@ AppAsset::register($this);
                 </a>
             </li>
             <li class="pull-left">
-                <a href="/gii" >
+                <a href="/object" >
                     <i class="fa fa-home"></i>
                     Объекты
                     <!--                <span class="label label-success">4</span>-->

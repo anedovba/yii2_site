@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
 use lav45\translate\TranslatedBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "city".
@@ -89,5 +90,10 @@ class City extends \yii\db\ActiveRecord
     public function getObjects()
     {
         return $this->hasMany(Object::className(), ['city_id' => 'id']);
+    }
+
+    public static function getCityList(){
+
+        return ArrayHelper::map(self::find()->all(),'id', 'city_name');
     }
 }

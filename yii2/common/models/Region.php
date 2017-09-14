@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
 use lav45\translate\TranslatedBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "region".
@@ -80,5 +81,9 @@ class Region extends \yii\db\ActiveRecord
     public function getRegionLangs()
     {
         return $this->hasMany(RegionLang::className(), ['region_id' => 'id']);
+    }
+    public static function getRegionList(){
+
+        return ArrayHelper::map(self::find()->all(),'id', 'region_name');
     }
 }

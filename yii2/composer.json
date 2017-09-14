@@ -26,7 +26,10 @@
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-helpers": "dev-master",
         "yurkinx/yii2-image": "dev-master",
-        "lav45/yii2-translated-behavior": "^1.4"
+        "lav45/yii2-translated-behavior": "^1.4",
+        "metalguardian/yii2-fotorama-widget": "*",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "2amigos/yii2-multi-select-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

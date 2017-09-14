@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
 use lav45\translate\TranslatedBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "object_type".
@@ -88,5 +89,9 @@ class ObjectType extends \yii\db\ActiveRecord
     public function getLangs()
     {
         return $this->hasMany(Lang::className(), ['id' => 'lang_id'])->viaTable('object_type_lang', ['object_type_id' => 'id']);
+    }
+    public static function getTypeList(){
+
+        return ArrayHelper::map(self::find()->all(),'id', 'object_type_name');
     }
 }

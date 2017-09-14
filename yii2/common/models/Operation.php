@@ -7,6 +7,7 @@ use yii\base\Object;
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
 use lav45\translate\TranslatedBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "operation".
@@ -90,5 +91,9 @@ class Operation extends \yii\db\ActiveRecord
     public function getLangs()
     {
         return $this->hasMany(Lang::className(), ['id' => 'lang_id'])->viaTable('operation_lang', ['operation_id' => 'id']);
+    }
+    public static function getOperationList(){
+
+        return ArrayHelper::map(self::find()->all(),'id', 'operation_name');
     }
 }
