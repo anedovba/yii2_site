@@ -218,6 +218,10 @@ class Object extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ObjectImage::className(), ['object_id' => 'id'])->orderBy('sort');
     }
+    public function getMainImage()
+    {
+        return $this->hasOne(ObjectImage::className(), ['object_id' => 'id'])->orderBy('sort');
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -354,6 +358,9 @@ class Object extends \yii\db\ActiveRecord
                     'key'=>'id',
                 ]]
         );
+    }
+    public static function getNewObjects(){
+        return self::find()->orderBy(['created_at'=>SORT_DESC])->limit(3)->all();
     }
 
 }

@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => [
                 'loop' => true,
                 'hash' => true,
-                'ratio' => 800/600,
+                'ratio' => 150/50,
             ],
             'spinner' => [
                 'lines' => 20,

@@ -2,6 +2,7 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var $objects \common\models\Object */
 
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
@@ -12,6 +13,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use common\widgets\WLang;
 AppAsset::register($this);
+$objects=new \common\models\Object();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -124,39 +126,35 @@ AppAsset::register($this);
             <ul class="nav navbar-nav">
                 <li class="dropdown active">
                     <a href="/" role="button" aria-haspopup="true"><?= Yii::t('app', 'Главная')?> <i class="fa fa-home"></i></a>
-                    <!--                    <ul class="dropdown-menu">-->
-                    <!--                        <li><a href="index.html">Home - Slider</a></li>-->
-                    <!--                        <li><a href="real-estate-home-map.html">Home - Map</a></li>-->
-                    <!--                    </ul>-->
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" onclick="document.getElementById('elem').style.display=='block'?document.getElementById('elem').style.display='none':document.getElementById('elem').style.display='block';document.getElementById('elem2').style.display='none';document.getElementById('elem3').style.display='none';document.getElementById('elem4').style.display='none'; ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"><?= Yii::t('app', 'Объекты')?>  <i class="fa fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul id="elem" class="dropdown-menu">
                         <li><a href="/site/propertylisting"><?= Yii::t('app', 'Квартиры')?></a></li>
                         <li><a href="/site/propertylisting"><?= Yii::t('app', 'Коммерческая недвижимость')?></a></li>
                         <li><a href="/site/propertylisting"><?= Yii::t('app', 'Коттеджи')?></a></li>
                         <li><a href="/site/propertylisting"><?= Yii::t('app', 'Земельные Участки')?></a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" onclick="document.getElementById('elem2').style.display=='block'?document.getElementById('elem2').style.display='none':document.getElementById('elem2').style.display='block';document.getElementById('elem').style.display='none';document.getElementById('elem3').style.display='none';document.getElementById('elem4').style.display='none';">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"><?= Yii::t('app', 'Бухгалтерия и право')?>  <i class="fa fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul id="elem2" class="dropdown-menu">
                         <li><a href="/site/blog"><?= Yii::t('app', 'Бухгалтерские услуги')?></a></li>
                         <li><a href="/site/blog"><?= Yii::t('app', 'Юридические услуги')?></a></li>
                         <li><a href="/site/blog"><?= Yii::t('app', 'Тарифы и сроки')?></a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" onclick="document.getElementById('elem3').style.display=='block'?document.getElementById('elem3').style.display='none':document.getElementById('elem3').style.display='block';document.getElementById('elem2').style.display='none';document.getElementById('elem').style.display='none';document.getElementById('elem4').style.display='none';">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"><?= Yii::t('app', 'Экспертная оценка')?>  <i class="fa fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul id="elem3" class="dropdown-menu">
                         <li><a href="/site/blog"><?= Yii::t('app', 'Сертификаты и лицензии')?> </a></li>
                         <li><a href="/site/blog"><?= Yii::t('app', 'Опыт работы')?> </a></li>
                         <li><a href="/site/blog"><?= Yii::t('app', 'Тарифы и сроки')?></a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" onclick="document.getElementById('elem4').style.display=='block'?document.getElementById('elem4').style.display='none':document.getElementById('elem4').style.display='block';document.getElementById('elem2').style.display='none';document.getElementById('elem3').style.display='none';document.getElementById('elem').style.display='none';">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"><?= Yii::t('app', 'Консалтинг')?>  <i class="fa fa-angle-down"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul id="elem4" class="dropdown-menu">
                         <li><a href="/site/blog"><?= Yii::t('app', 'Составление бизнес-планов')?> </a></li>
                         <li><a href="/site/blog"><?= Yii::t('app', 'Разработка концепций проектов девелопмента')?> </a></li>
                         <li><a href="/site/blog"><?= Yii::t('app', 'Продажа и продвижение инвестиционных проектов')?> </a></li>
@@ -204,39 +202,21 @@ AppAsset::register($this);
             </div>
             <div class="col-md-3 col-sm-6 margin30">
                 <h3><?= Yii::t('app', 'Новое')?></h3>
+
+            <?php
+            foreach ($objects->newObjects as $object):?>
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object" src="<?= Url::to('img/estate/img-1.jpg', true) ?>" width="100" alt="...">
+                            <img class="media-object" src="<?= '/uploads/images/property/'.$object->mainImage->image?>" width="100" alt="...">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><a href="#">26, lalpura road</a></h4>
-                        <span class="location">Niwaru, ll 3454</span>
+                        <h4 class="media-heading"><a href="#"><?= $object->operation->operation_name?></a></h4>
+                        <span class="location"><?= $object->object_name?></span>
                     </div>
                 </div><!--media-->
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="<?= Url::to('img/estate/img-2.jpg', true) ?>" width="100" alt="...">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading"><a href="#">26, lalpura road</a></h4>
-                        <span class="location">Niwaru, ll 3454</span>
-                    </div>
-                </div><!--media-->
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="<?= Url::to('img/estate/img-3.jpg', true) ?>" width="100" alt="...">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading"><a href="#">26, Salaser road</a></h4>
-                        <span class="location">jaipur, ll 765</span>
-                    </div>
-                </div><!--media-->
+                <?php endforeach;?>
             </div>
             <div class="col-md-3 col-sm-6 margin30">
                 <h3><?= Yii::t('app', 'Полезные ссылки')?></h3>

@@ -3,6 +3,8 @@ namespace frontend\controllers;
 
 use common\models\Agents;
 use common\models\Blog;
+use common\models\ObjectType;
+use common\models\Operation;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
@@ -16,7 +18,9 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Agent;
+use common\models\Object;
 use lav45\translate\models\Lang;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -78,8 +82,12 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $agents=Agent::find()->all();
+        $types=ObjectType::find()->all();
+        $objects=Object::find()->orderBy(['id'=>SORT_DESC])->limit(3)->all();
+        $topobjects=Object::find()->andWhere(['top'=>1])->orderBy(['id'=>SORT_DESC])->all();
+        $operations=Operation::find()->all();
 //        return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
-        return $this->render('index', ['agents'=>$agents]);//передаем во вью
+        return $this->render('index', ['agents'=>$agents, 'objects'=>$objects, 'types'=>$types,  'operations'=>$operations, 'topobjects'=>$topobjects]);//передаем во вью
 
     }
 

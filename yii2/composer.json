@@ -29,7 +29,9 @@
         "lav45/yii2-translated-behavior": "^1.4",
         "metalguardian/yii2-fotorama-widget": "*",
         "kartik-v/yii2-widget-select2": "@dev",
-        "2amigos/yii2-multi-select-widget": "*"
+        "2amigos/yii2-multi-select-widget": "*",
+        "2amigos/yii2-google-maps-library": "*",
+        "2amigos/yii2-gallery-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
