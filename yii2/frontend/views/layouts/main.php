@@ -39,8 +39,8 @@ $objects=new \common\models\Object();
             </div>
             <div class="col-sm-6 col-md-6">
                 <div class="top-social">
-                    <a href="" target="_blank"><i class="fa fa-facebook"></i></a>
-                    <a href="" target="_blank"><i class="fa fa-google"></i></a>
+                    <a href="https://www.facebook.com/red.kiev.ua/" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://plus.google.com/u/0/+%D0%90%D0%B3%D0%B5%D0%BD%D1%82%D1%81%D1%82%D0%B2%D0%BE%D0%BD%D0%B5%D0%B4%D0%B2%D0%B8%D0%B6%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D0%B8%D0%A0%D0%95%D0%94%D0%9A%D0%B8%D1%97%D0%B2" target="_blank"><i class="fa fa-google"></i></a>
                     <?= $this->render('main/select-language') ?>
                 </div>
                 <div class="top-social" style="color: white; float: right;">
@@ -207,12 +207,12 @@ $objects=new \common\models\Object();
             foreach ($objects->newObjects as $object):?>
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
+                        <a href="<?=Url::to(['/site/propertydetail', 'id'=>$object->id])?>">
                             <img class="media-object" src="<?= '/uploads/images/property/'.$object->mainImage->image?>" width="100" alt="...">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><a href="#"><?= $object->operation->operation_name?></a></h4>
+                        <h4 class="media-heading"><a href="<?=Url::to(['/site/propertydetail', 'id'=>$object->id])?>"><?= $object->operation->operation_name?></a></h4>
                         <span class="location"><?= $object->object_name?></span>
                     </div>
                 </div><!--media-->

@@ -84,7 +84,7 @@ $this->title =  Yii::t('app', 'О нас');
                         <p>
                             <?=$agent->position?>
                         </p>
-                        <a href="/site/agentdetail?id=<?=$agent->id?>"><?= Yii::t('app', 'Посмотреть профайл')?></a>
+                        <a href="<?=\yii\helpers\Url::to(['/site/agentdetail', 'id'=>$agent->id])?>"><?= Yii::t('app', 'Посмотреть профайл')?></a>
                     </div>
                 </div><!--agent col-->
             <?php endforeach;?>

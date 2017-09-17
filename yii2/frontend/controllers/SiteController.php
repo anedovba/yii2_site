@@ -113,9 +113,10 @@ public function actionAddproperty(){
     }
 
     public function actionAgentdetail($id){
-
+        $newobjects=Object::find()->all();
+        $agentobjects=Object::find()->andWhere(['agent_id'=>$id])->all();
         if($agent=Agent::find()->andWhere(['id'=>$id])->one()){
-            return $this->render('agentdetail', ['agent'=>$agent]);//передаем во вью
+            return $this->render('agentdetail', ['agent'=>$agent,'newobjects'=>$newobjects, 'agentobjects'=>$agentobjects]);//передаем во вью
         }
         throw new NotFoundHttpException('такого агента не существует');
     }

@@ -50,7 +50,7 @@ return [
                 'blog'=>'blog/index',
                 'propertydetail/<id:[0-9]+>'=>'site/propertydetail',
                 'propertylisting/<page:[0-9]+>'=>'site/propertylisting',
-                'agentdetail/<page:[0-9]+>'=>'site/agentdetail',
+                'agentdetail/<id:[0-9]+>'=>'site/agentdetail',
             ],
 //],
 //            ['class' => 'lav45\translate\web\UrlManager',
