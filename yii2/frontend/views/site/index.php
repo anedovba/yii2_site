@@ -13,40 +13,6 @@
 $this->title = Yii::t('app', 'Главная');
 ?>
 
-
-<style>
-
-    .image:hover a {
-        opacity: 0.3;!important;
-    }
-    .image a {
-        opacity: 0;!important;
-    }
-    .carousel-control.right{
-        width: 20px;
-    }
-    .carousel-control.left{
-        width: 20px;
-    }
-    .carousel-indicators li {
-        width: 5px;
-        height: 5px;
-        margin: 1px;
-        text-indent: -999px;
-        cursor: pointer;
-        background-color: gray;
-        /*background-color: rgba(0,0,0,0);*/
-        border: 1px solid gray;
-        border-radius: 5px;
-    }
-    .carousel-indicators {
-        top: 20px;
-    }
-    .carousel-indicators .active {
-        width: 7px;
-        height: 7px;
-
-</style>
 <div class="fullwidthbanner">
     <div class="tp-banner">
         <ul>
@@ -54,7 +20,7 @@ $this->title = Yii::t('app', 'Главная');
             <!-- SLIDE -->
             <li data-transition="fade" data-slotamount="5" data-masterspeed="1000" data-title="<?=$object->object_name?>">
                 <!-- MAIN IMAGE -->
-                <img src="uploads/images/property/<?=$object->mainImage->image?>"   alt="darkblurbg"  data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">
+                <img src="/uploads/images/property/<?=$object->mainImage->image?>"   alt="darkblurbg"  data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">
                 <div class="caption slider-title sft"
                      data-x="50"
                      data-y="160"
@@ -152,7 +118,7 @@ $this->title = Yii::t('app', 'Главная');
                             $carousel1=[];
                             foreach ($tobject->objectImages as $one){
                                 $carousel1[]=[
-                                    'content' => '<img class="img-responsive" data-bgposition="center center" style="max-height: 175px; margin: 0 auto" style="width:225px;height:175px" src="uploads/images/property/'.$one->image.'"/>',
+                                    'content' => '<img class="img-responsive" data-bgposition="center center" style="max-height: 175px; margin: 0 auto" style="width:225px;height:175px" src="/uploads/images/property/'.$one->image.'"/>',
                                 ];
                             }
                             echo \yii\bootstrap\Carousel::widget ( [
@@ -164,13 +130,13 @@ $this->title = Yii::t('app', 'Главная');
                     </div><!--content-->
                 </div><!--image-->
                 <div class="property-detail">
-                    <h5 class="title"><a href="#"><?= $tobject->object_name ?></a></h5>
+                    <h5 class="title"><a href="<?=\yii\helpers\Url::to(['/site/propertydetail', 'id'=>$tobject->id])?>"><?= $tobject->object_name ?></a></h5>
                     <span class="location"><?= $tobject->country->country_name?>, <?= $tobject->region->region_name?>, <?= $tobject->city->city_name?>, <?= $tobject->object_street?> </span>
                     <div class="pull-left">
                         <p><b><?= Yii::t('app', 'Площадь')?>:</b> <?= $tobject->area?> m<sup>2</sup></p>
                     </div>
                     <div class="pull-right">
-                        <span><?= $tobject->rooms?'<img src="img/estate/bedrooms.png" alt="">'.$tobject->rooms:'-' ?></span>
+                        <span><?= $tobject->rooms?'<img src="/img/estate/bedrooms.png" alt="">'.$tobject->rooms:'-' ?></span>
                     </div>
                 </div><!--property details-->
             </div><!--property-->
@@ -187,31 +153,31 @@ $this->title = Yii::t('app', 'Главная');
     </div>
     <div class="divide60"></div>
     <div class="row">
-<!--        --><?php
-//        $markers = [];
-//        foreach ($objects as $object) {
-//            $carousel=[];
-//            foreach ($object->objectImages as $one){
-//                $carousel[]=[
-//                    'content' => '<img class="img-responsive" data-bgposition="center center" style="max-height: 175px; margin: 0 auto" style="width:225px;height:175px" src="uploads/images/property/'.$one->image.'"/>',
-//                ];
-//            }
-//            $c= \yii\bootstrap\Carousel::widget ( [
-//                'items' => $carousel,
-//                'options' => ['class' => 'carousel slide']
-//            ]);
-//            $marker = new \dosamigos\google\maps\overlays\Marker(['title' => $object->object_name, 'position' => new \dosamigos\google\maps\LatLng(['lat' => $object->lt, 'lng' => $object->lg]), 'icon'=>'img/estate/pin.png']);
-//            $content = '<h4>' . \yii\helpers\Html::a($object->object_name, ['/location/view', 'id' => $object->id]) .'</h4><hr><p>'.$object->operation->operation_name.'</p>'. $c;
-//            $marker->attachInfoWindow(new \dosamigos\google\maps\overlays\InfoWindow(['content' => $content]));
-//            $markers[] = $marker;
-//        }
-//        $bounds = \dosamigos\google\maps\LatLngBounds::getBoundsOfMarkers($markers);
-//        $map = new \dosamigos\google\maps\Map(['center' => $bounds->getCenterCoordinates(), 'zoom' => $bounds->getZoom(250), 'width' => '100%', 'height' => '100%']);
-//        foreach ($markers as $marker) {
-//            $map->addOverlay($marker);
-//        }
-//        echo $map->display();
-//        ?>
+        <?php
+        $markers = [];
+        foreach ($objects as $object) {
+            $carousel=[];
+            foreach ($object->objectImages as $one){
+                $carousel[]=[
+                    'content' => '<img class="img-responsive" data-bgposition="center center" style="max-height: 175px; margin: 0 auto" style="width:225px;height:175px" src="/uploads/images/property/'.$one->image.'"/>',
+                ];
+            }
+            $c= \yii\bootstrap\Carousel::widget ( [
+                'items' => $carousel,
+                'options' => ['class' => 'carousel slide']
+            ]);
+            $marker = new \dosamigos\google\maps\overlays\Marker(['title' => $object->object_name, 'position' => new \dosamigos\google\maps\LatLng(['lat' => $object->lt, 'lng' => $object->lg]), 'icon'=>'img/estate/pin.png']);
+            $content = '<h4>' . \yii\helpers\Html::a($object->object_name, ['/site/propertydetail', 'id' => $object->id]) .'</h4><hr><p>'.$object->operation->operation_name.'</p>'. $c;
+            $marker->attachInfoWindow(new \dosamigos\google\maps\overlays\InfoWindow(['content' => $content]));
+            $markers[] = $marker;
+        }
+        $bounds = \dosamigos\google\maps\LatLngBounds::getBoundsOfMarkers($markers);
+        $map = new \dosamigos\google\maps\Map(['center' => $bounds->getCenterCoordinates(), 'zoom' => $bounds->getZoom(250), 'width' => '100%', 'height' => '100%']);
+        foreach ($markers as $marker) {
+            $map->addOverlay($marker);
+        }
+        echo $map->display();
+        ?>
     </div>
     <div class="divide60"></div>
     <div class="row">
@@ -229,19 +195,19 @@ $this->title = Yii::t('app', 'Главная');
                         <div class="image">
                             <div class="content">
                                 <a href="#"><i class="fa fa-search-plus"></i></a>
-                                <img src="uploads/images/property/<?=$object->mainImage->image?>" class="img-responsive" alt="propety" style="max-height: 175px; margin: 0 auto">
+                                <img src="/uploads/images/property/<?=$object->mainImage->image?>" class="img-responsive" alt="propety" style="max-height: 175px; margin: 0 auto">
                                 <span class="label-property"><?= $object->operation->operation_name?></span>
                                 <span class="label-price"><?=number_format($object->price, '2', ',', ' ') ?> грн</span>
                             </div><!--content-->
                         </div><!--image-->
                         <div class="property-detail">
-                            <h5 class="title"><a href="#"><?= $object->object_name?></a></h5>
+                            <h5 class="title"><a href="<?=\yii\helpers\Url::to(['/site/propertydetail', 'id'=>$object->id])?>"><?= $object->object_name?></a></h5>
                             <span class="location"><?= $object->country->country_name?>, <?= $object->region->region_name?>, <?= $object->city->city_name?>, <?= $object->object_street?> </span>
                             <div class="pull-left">
                                 <p><b><?= Yii::t('app', 'Площадь')?>:</b> <?= $object->area?> m<sup>2</sup></p>
                             </div>
                             <div class="pull-right">
-                                <span><?= $object->rooms?'<img src="img/estate/bedrooms.png" alt="">'.$object->rooms:'-' ?></span>
+                                <span><?= $object->rooms?'<img src="/img/estate/bedrooms.png" alt="">'.$object->rooms:'-' ?></span>
                             </div>
                         </div><!--property details-->
                     </div><!--property-->
@@ -282,12 +248,12 @@ $this->title = Yii::t('app', 'Главная');
 <?php foreach($agents as $agent):?>
         <div class="col-md-4 col-sm-6 margin30">
             <div class="agent-box">
-                <img src="uploads/images/800x/<?=$agent->user->image?>" class="img-circle img-responsive" width="200" alt="">
+                <img src="/uploads/images/800x/<?=$agent->user->image?>" class="img-circle img-responsive" width="200" alt="">
                 <h3><?=$agent->name?></h3>
                 <p>
                     <?=$agent->position?>
                 </p>
-                <a href="/site/agentdetail?id=<?=$agent->id?>"><?= Yii::t('app', 'Посмотреть профайл')?></a>
+                <a href="<?=\yii\helpers\Url::to(['/site/agentdetail', 'id'=>$agent->id])?>"><?= Yii::t('app', 'Посмотреть профайл')?></a>
             </div>
         </div><!--agent col-->
 <?php endforeach;?>
@@ -295,5 +261,3 @@ $this->title = Yii::t('app', 'Главная');
 </div><!--agents content-->
 <div class="divide40"></div>
 
-<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqb3fT3SbMSDMggMEK7fJOIkvamccLrjA&sensor=false"></script><!-- google maps -->-->
-<!--<script src="js/map.js" type="text/javascript"></script>-->

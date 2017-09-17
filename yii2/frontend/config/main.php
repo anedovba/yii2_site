@@ -47,7 +47,10 @@ return [
             'languages' => ['en', 'uk', 'ru'],
             'rules' => [
                 'blog/<url>'=>'blog/one',
-                'blog'=>'blog/index'
+                'blog'=>'blog/index',
+                'propertydetail/<id:[0-9]+>'=>'site/propertydetail',
+                'propertylisting/<page:[0-9]+>'=>'site/propertylisting',
+                'agentdetail/<page:[0-9]+>'=>'site/agentdetail',
             ],
 //],
 //            ['class' => 'lav45\translate\web\UrlManager',

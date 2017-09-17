@@ -211,6 +211,17 @@ class Object extends \yii\db\ActiveRecord
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 
+    public static function objectsCountOper($id)
+{
+    $res=self::find()->andWhere(['operation_id'=>$id])->all();
+    return count($res);
+}
+    public static function objectsCountType($id)
+    {
+        $res=self::find()->andWhere(['object_type_id'=>$id])->all();
+        return count($res);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

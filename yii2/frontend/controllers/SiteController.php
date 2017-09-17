@@ -20,7 +20,9 @@ use frontend\models\ContactForm;
 use common\models\Agent;
 use common\models\Object;
 use lav45\translate\models\Lang;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use yii\data\Pagination;
 
 /**
  * Site controller
@@ -92,7 +94,12 @@ class SiteController extends Controller
     }
 
     public function actionPropertydetail(){
-        return $this->render('propertydetail');
+        $newobjects=Object::find()->orderBy(['id'=>SORT_DESC])->limit(3)->all();
+        $id=Yii::$app->request->get('id');
+        $obj=Object::findOne($id);
+        $agents=Agent::find()->all();
+        if(empty($obj)) throw new HttpException(404, 'Такой страницы не существует');
+        return $this->render('propertydetail', ['obj' => $obj,'newobjects'=>$newobjects, 'agents'=>$agents,]);
     }
 
 public function actionBlog(){
@@ -114,7 +121,21 @@ public function actionAddproperty(){
     }
 
     public function actionPropertylisting(){
-        return $this->render('propertylisting');
+        $types=ObjectType::find()->all();
+        $operations=Operation::find()->all();
+        $objects=Object::find();
+        $newobjects=Object::find()->orderBy(['id'=>SORT_DESC])->limit(20)->all();
+        $agents=Agent::find()->all();
+        $countQuery = clone $objects;
+        // подключаем класс Pagination, выводим по 10 пунктов на страницу
+        $pages = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+        // приводим параметры в ссылке к ЧПУ
+        $pages->pageSizeParam = false;
+        $pages->forcePageParam = false;
+        $models = $objects->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('propertylisting', ['types'=>$types, 'operations'=>$operations, 'objects'=>$models, 'newobjects'=>$newobjects, 'agents'=>$agents,  'pages' => $pages, ]);
     }
 
     /**

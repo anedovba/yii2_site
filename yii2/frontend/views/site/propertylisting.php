@@ -1,9 +1,15 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $types \common\models\ObjectType */
+/* @var $operations \common\models\Operation */
+/* @var $objects \common\models\Object */
+/* @var $newobjects \common\models\Object */
+/* @var $agents \common\models\Agent */
 
 use yii\helpers\Html;
 use \yii\helpers\Url;
+use yii\widgets\LinkPager;
 
 $this->title = Yii::t('app', 'Объекты');
 ?>
@@ -14,282 +20,114 @@ $this->title = Yii::t('app', 'Объекты');
                     <div class="sidebar-box">
                         <h3><?= Yii::t('app', 'Категории')?></h3>
                         <ul class="list-unstyled cat-list">
-                            <li><a href="/site/propertylisting"><?= Yii::t('app', 'Аренда')?> (5)</a></li>
-                            <li><a href="/site/propertylisting"><?= Yii::t('app', 'Продажа')?> (3)</a></li>
-                            <li><a href="/site/propertylisting"><?= Yii::t('app', 'Новые места')?> (17)</a></li>
-                            <li><a href="/site/propertylisting"><?= Yii::t('app', 'Последние размещения')?> (20)</a></li>
+<?php foreach ($operations as $operation):?>
+                            <li><a href="/site/propertylisting"><?= $operation->operation_name?> (<?=\common\models\Object::objectsCountOper($operation->id)?>)</a></li>
+<?php endforeach; ?>
+                            <?php foreach ($types as $type):?>
+                            <li><a href="/site/propertylisting"><?= $type->object_type_name?> (<?=\common\models\Object::objectsCountType($type->id)?>)</a></li>
+                            <?php endforeach; ?>
+                            <li><a href="/site/propertylisting"><?= Yii::t('app', 'Последние размещения')?> (<?=count($newobjects)?>)</a></li>
                         </ul>
                     </div><!--sidebar box-->
                     <div class="sidebar-box">
                         <h3><?= Yii::t('app', 'Недавно добавили')?></h3>
+                       <?php $i=0; foreach ($newobjects as $one):
+                           if($i==3) break;?>
                         <div class="media">
                             <div class="media-left">
                                 <div class="image">
                                     <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/estate/sm-1.jpg" width="100" alt="propety">
+                                      <img src="/uploads/images/property/<?=$one->mainImage->image?>" width="100px"/>
                                     </div><!--content-->
                                 </div><!--image-->
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><?= Yii::t('app', 'Название')?></a></h4>
-                                <em><?= Yii::t('app', 'Адрес')?></em>
-                                <a href="/site/propertydetail" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
+                                <h4 class="media-heading"><?= $one->operation->operation_name ?></h4>
+                                <em><?= $one->objectType->object_type_name?></em>
+                                <a href="<?=Url::to(['/site/propertydetail', 'id'=>$one->id])?>" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
                             </div>
                         </div><!--media-->
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/estate/sm-1.jpg" width="100" alt="propety">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><?= Yii::t('app', 'Название')?></a></h4>
-                                <em><?= Yii::t('app', 'Адрес')?></em>
-                                <a href="/site/propertydetail" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
-                            </div>
-                        </div><!--media-->
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/estate/sm-1.jpg" width="100" alt="propety">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><?= Yii::t('app', 'Название')?></a></h4>
-                                <em><?= Yii::t('app', 'Адрес')?></em>
-                                <a href="/site/propertydetail" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
-                            </div>
-                        </div><!--media-->
+                        <?php $i++; endforeach; ?>
                     </div><!--sidebar box-->
                     <div class="sidebar-box">
                         <h3><?= Yii::t('app', 'Лучшие агенты')?></h3>
+                       <?php $i=0; foreach ($agents as $agent):
+                           if($i==2) break;?>
                         <div class="media">
                             <div class="media-left">
                                 <div class="image">
                                     <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/team-3.jpg" width="70" alt="agent">
+<!--                                        <a href="#"><i class="fa fa-search-plus"></i></a>-->
+                                        <img src="/uploads/images/800x/<?=$agent->user->image?>" width="70" alt="agent">
                                     </div><!--content-->
                                 </div><!--image-->
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading"><a href="/site/agentdetail"><?= Yii::t('app', 'Имя')?></a></h4>
-                                <em>+38 050 999 99 99</em>
-                                <a href="#"><i class="fa fa-envelope"></i> name@red.kiev.ua</a>
+                                <h4 class="media-heading"><a href="<?=\yii\helpers\Url::to(['/site/agentdetail', 'id'=>$agent->id])?>"><?= $agent->name?></a></h4>
+                                <em><?= $agent->phone?></em>
+                                <a href="#"><i class="fa fa-envelope"></i> <?= $agent->user->email?></a>
                             </div>
                         </div><!--media-->
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/team-1.jpg" width="70" alt="agent">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="/site/agentdetail"><?= Yii::t('app', 'Имя')?></a></h4>
-                                <em>+38 067 111 11 11</em>
-                                <a href="#"><i class="fa fa-envelope"></i> name@red.kiev.ua</a>
-                            </div>
-                        </div><!--media-->
+                        <?php $i++; endforeach; ?>
+
                     </div><!--sidebar box-->
                 </div><!--sidebar-->
                 <div class="col-md-9">
                     <h3 class="title-section"><?= Yii::t('app', 'Список объектов')?></h3>
+                    <?php foreach ($objects as $object):?>
                     <div class="row property-listing">
                         <div class="col-sm-4 margin30">
                             <div class="image">
                                 <div class="content">
-                                    <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/estate/sm-1.jpg" class="img-responsive" alt="propety">
-                                    <span class="label-property"><?= Yii::t('app', 'Продажа')?></span>                                    <span class="label-price">$150000</span>
+                                    <?php
+
+                                    $carousel1=[];
+                                    foreach ($object->objectImages as $one){
+                                        $carousel1[]=[
+                                            'content' => '<img class="img-responsive" data-bgposition="center center" style="max-height: 175px; margin: 0 auto" style="width:300px;" src="/uploads/images/property/'.$one->image.'"/>',
+                                        ];
+                                    }
+                                    echo \yii\bootstrap\Carousel::widget ( [
+                                        'items' => $carousel1,
+                                        'options' => ['class' => 'carousel slide'],
+                                    ]);
+                                    ?>
+                                    <span class="label-property"><?= $object->operation->operation_name?></span>
+                                    <span class="label-price"><?=number_format($object->price, '0', ',', ' ') ?> грн</span>
                                 </div><!--content-->
                             </div><!--image-->
                         </div><!--image col-->
                         <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Название')?></a></h3>
-                            <em><?= Yii::t('app', 'Адрес')?>, 4549</em><br>
+                            <h3><a href="<?=Url::to(['/site/propertydetail', 'id'=>$object->id])?>"><?= $object->object_name?></a></h3>
+                            <em><?= $object->country->country_name?>, <?= $object->region->region_name?>, <?= $object->city->city_name?>, <?= $object->object_street?> </em><br>
                             <a href="/site/agentdetail#contactform" class="btn btn-default"><?= Yii::t('app', 'Свяжитесь с нами')?></a>
                             <p>
-                                <?= Yii::t('app', 'Детальное описание')?>
+<!--                                --><?//= Yii::t('app', 'Детальное описание')?>
                             </p>
                             <div class="clearfix">
+<!--                                <div class="pull-left">-->
+<!--                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>-->
+<!--                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>-->
+<!--                                </div>-->
                                 <div class="pull-left">
-                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>
-                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>
+                                    <p><b><?= Yii::t('app', 'Площадь')?>:</b> <?= $object->area?> m<sup>2</sup></p>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="/site/propertydetail"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
+                                    <a href="<?=Url::to(['/site/propertydetail', 'id'=>$object->id])?>"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
                                 </div>
                             </div>
                         </div>
                     </div><!--property listing row-->
-                    <div class="row property-listing">
-                        <div class="col-sm-4 margin30">
-                            <div class="image">
-                                <div class="content">
-                                    <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/estate/sm-1.jpg" class="img-responsive" alt="propety">
-                                    <span class="label-property"><?= Yii::t('app', 'Аренда')?></span>                                    <span class="label-price">$150000</span>
-                                </div><!--content-->
-                            </div><!--image-->
-                        </div><!--image col-->
-                        <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Название')?></a></h3>
-                            <em><?= Yii::t('app', 'Адрес')?>, 4549</em><br>
-                            <a href="#" class="btn btn-default"><?= Yii::t('app', 'Свяжитесь с нами')?></a>
-                            <p>
-                                <?= Yii::t('app', 'Детальное описание')?>
-                            </p>
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>
-                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="/site/propertydetail"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--property listing row-->
-                    <div class="row property-listing">
-                        <div class="col-sm-4 margin30">
-                            <div class="image">
-                                <div class="content">
-                                    <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/estate/sm-1.jpg" class="img-responsive" alt="propety">
-                                    <span class="label-property"><?= Yii::t('app', 'Аренда')?></span>                                    <span class="label-price">$150000</span>
-                                </div><!--content-->
-                            </div><!--image-->
-                        </div><!--image col-->
-                        <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Название')?></a></h3>
-                            <em><?= Yii::t('app', 'Адрес')?>, 4549</em><br>
-                            <a href="#" class="btn btn-default"><?= Yii::t('app', 'Свяжитесь с нами')?></a>
-                            <p>
-                                <?= Yii::t('app', 'Детальное описание')?>
-                            </p>
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>
-                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="/site/propertydetail"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--property listing row-->
-                    <div class="row property-listing">
-                        <div class="col-sm-4 margin30">
-                            <div class="image">
-                                <div class="content">
-                                    <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/estate/sm-1.jpg" class="img-responsive" alt="propety">
-                                    <span class="label-property"><?= Yii::t('app', 'Продажа')?></span>                                    <span class="label-price">$150000</span>
-                                </div><!--content-->
-                            </div><!--image-->
-                        </div><!--image col-->
-                        <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Название')?></a></h3>
-                            <em><?= Yii::t('app', 'Адрес')?>, 4549</em><br>
-                            <a href="#" class="btn btn-default"><?= Yii::t('app', 'Свяжитесь с нами')?></a>
-                            <p>
-                                <?= Yii::t('app', 'Детальное описание')?>
-                            </p>
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>
-                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="/site/propertydetail"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--property listing row-->
-                    <div class="row property-listing">
-                        <div class="col-sm-4 margin30">
-                            <div class="image">
-                                <div class="content">
-                                    <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/estate/sm-1.jpg" class="img-responsive" alt="propety">
-                                    <span class="label-property"><?= Yii::t('app', 'Аренда')?></span>                                    <span class="label-price">$150000</span>
-                                </div><!--content-->
-                            </div><!--image-->
-                        </div><!--image col-->
-                        <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Название')?></a></h3>
-                            <em><?= Yii::t('app', 'Адрес')?>, 4549</em><br>
-                            <a href="#" class="btn btn-default"><?= Yii::t('app', 'Свяжитесь с нами')?></a>
-                            <p>
-                                <?= Yii::t('app', 'Детальное описание')?>
-                            </p>
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>
-                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="/site/propertydetail"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--property listing row-->
-                    <div class="row property-listing">
-                        <div class="col-sm-4 margin30">
-                            <div class="image">
-                                <div class="content">
-                                    <a href="#"><i class="fa fa-search-plus"></i></a>
-                                    <img src="/img/estate/sm-1.jpg" class="img-responsive" alt="propety">
-                                    <span class="label-property"><?= Yii::t('app', 'Аренда')?></span>                                    <span class="label-price">$150000</span>
-                                </div><!--content-->
-                            </div><!--image-->
-                        </div><!--image col-->
-                        <div class="col-sm-8">
-                            <h3><a href="#"><?= Yii::t('app', 'Название')?></a></h3>
-                            <em><?= Yii::t('app', 'Адрес')?>, 4549</em><br>
-                            <a href="#" class="btn btn-default"><?= Yii::t('app', 'Свяжитесь с нами')?></a>
-                            <p>
-                                <?= Yii::t('app', 'Детальное описание')?>
-                            </p>
-                            <div class="clearfix">
-                                <div class="pull-left">
-                                    <span><img src="/img//estate/bedrooms.png" alt=""> 4</span>
-                                    <span><img src="/img/estate/bathrooms.png" alt=""> 3</span>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="/site/propertydetail"><i class="fa fa-chevron-circle-right"></i> <?= Yii::t('app', 'Больше информации')?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--property listing row-->
+
+
                     <nav>
-                        <ul class="pagination pull-right">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
+
+                            <?php endforeach;
+                            echo LinkPager::widget([
+                                'pagination' => $pages,
+                                'options'=>['class'=>'pagination pull-right']
+                            ]);
+                            ?>
                     </nav><!--pagination-->
                     <div class="clearfix"></div>
                 </div>

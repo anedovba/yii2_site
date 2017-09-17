@@ -1288,3 +1288,34 @@ buttons for real estate
     display: none;
   }
 }
+
+.image:hover a {
+  opacity: 0.3;!important;
+}
+.image a {
+  opacity: 0;!important;
+}
+.carousel-control.right{
+  width: 20px;
+}
+.carousel-control.left{
+  width: 20px;
+}
+.carousel-indicators li {
+  width: 5px;
+  height: 5px;
+  margin: 1px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: red;
+  /*background-color: rgba(0,0,0,0);*/
+  border: 1px solid red;
+  border-radius: 5px;
+}
+.carousel-indicators {
+  top: 10px;
+}
+.carousel-indicators .active {
+  width: 7px;
+  height: 7px;
+}

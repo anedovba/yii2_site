@@ -1,6 +1,9 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $obj \common\models\Object */
+/* @var $newobjects \common\models\Object */
+/* @var $agents \common\models\Agent */
 
 use yii\helpers\Html;
 use \yii\helpers\Url;
@@ -12,90 +15,100 @@ $this->title = Yii::t('app', 'Объект');
             <div class="row">
 
                 <div class="col-md-9">
-                    <h3><?= Yii::t('app', 'Адрес')?></h3>
+                    <h3><?= $obj->country->country_name?>, <?= $obj->region->region_name?>, <?= $obj->city->city_name?>, <?= $obj->object_street?> </h3>
                     <div class="thumb-slider">
                         <div id="slider" class="flexslider">
                             <ul class="slides">
+                                <?php foreach ($obj->objectImages as $img):?>
                                 <li>
-                                    <img src="/img/estate/img-1.jpg" alt="" class="img-responsive">
+                                    <img src="/uploads/images/property/<?=$img->image?>" alt="" class="img-responsive">
                                 </li>
-                                <li>
-                                    <img src="/img/estate/img-2.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-3.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-4.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-5.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-6.jpg"  alt="" class="img-responsive">
-                                </li>
+                               <?php endforeach; ?>
                             </ul>
                         </div>
                         <div id="carousel" class="flexslider">
                             <ul class="slides">
-                                <li>
-                                    <img src="/img/estate/img-1.jpg" alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-2.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-3.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-4.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-5.jpg"  alt="" class="img-responsive">
-                                </li>
-                                <li>
-                                    <img src="/img/estate/img-6.jpg"  alt="" class="img-responsive">
-                                </li>
+                                <?php foreach ($obj->objectImages as $img):?>
+                                    <li>
+                                        <img src="/uploads/images/property/<?=$img->image?>" alt="" class="img-responsive">
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                     </div><!--thumb slider-->
                     <div class="property-meta clearfix margin20">
-                        <span><?= Yii::t('app', 'Аренда')?></span>
-                        <span><?= Yii::t('app', 'Площадь')?> 5000</span>
-                        <span>1 <?= Yii::t('app', 'ванные')?></span>
-                        <span>3 <?= Yii::t('app', 'спальни')?></span>
-                        <span>1 <?= Yii::t('app', 'парковка')?></span>
+                        <span><?= $obj->operation->operation_name?></span>
+                        <span><?= Yii::t('app', 'Площадь').' '.$obj->area?> m<sup>2</sup></span>
+                        <span> <?=number_format($obj->price, '0', ',', ' ') ?> грн</span>
+                        <?php if(isset($obj->area_kitch)&&$obj->area_kitch!=0){?>
+                            <span>Кухня <?= $obj->area_kitch ?></span>
+                        <?php }?>
+                        <?php if(isset($obj->area_live)&&$obj->area_live!=0){?>
+                            <span><?= Yii::t('app', 'Жилая')?> <?= $obj->area_live ?></span>
+                        <?php }?>
+                        <?php if(isset($obj->ceiling_height)&&$obj->ceiling_height!=0){?>
+                            <span><?= Yii::t('app', 'Потолок')?> <?= $obj->ceiling_height ?> m</span>
+                        <?php }?>
+                        <?php if(isset($obj->floor)&&$obj->floor!=0){?>
+                            <span><?= Yii::t('app', 'Этаж')?> <?= $obj->floor ?> </span>
+                        <?php }?>
+                        <?php if(isset($obj->total_floor)&&$obj->total_floor!=0){?>
+                            <span><?= Yii::t('app', 'Всего этажей')?> <?= $obj->total_floor ?> </span>
+                        <?php }?>
+                        <?php if(isset($obj->rooms)&&$obj->rooms!=0){?>
+                            <span><?= Yii::t('app', 'Комнаты')?> <?= $obj->rooms ?> </span>
+                        <?php }?>
+                        <?php foreach ($obj->tags as $tag):?>
+                        <span><?= $tag->tag->tag_name?></span>
+                        <?php endforeach; ?>
                     </div><!--property meta-->
                     <div class="property-description margin20">
                         <p>
-                            <?= Yii::t('app', 'В квартире сделан дорогой, качественный евроремонт.')?>
-                        </p>
-                        <p>
-                           <?= Yii::t('app', 'Кондиционер, две плазмы, холодильник, стиральная машина, встроенный духовой шкаф, варочная поверхность, вытяжка. Установлен двухконтурный котёл. Оборудован тёплый пол. Проведено кабельное и интернет - есть WI-FI. Ведётся видеонаблюение. Полностью укомплектована дорогой мебелью и техникой. Есть сигнализация и встроенный сейф. Квартира свободна - можно заселяться!')?>
+                            <?= $obj->object_description?>
+
                         </p>
                     </div><!--description-->
                     <div class="additional-amenities">
-                        <span class="available"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Кондиционер')?></span>
-                        <span class="available"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Отопление')?></span>
-                        <span class="navailable"><i class="fa fa-times"></i> <?= Yii::t('app', 'Балкон')?></span>
-                        <span class="available"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Посудомойная машина')?></span>
-                        <span class="navailable"><i class="fa fa-times"></i> <?= Yii::t('app', 'Басейн')?></span>
-                        <span class="available"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Интернет')?></span>
-                        <span class="navailable"><i class="fa fa-times"></i> <?= Yii::t('app', 'Терасса')?></span>
-                        <span class="available"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Микроволновка')?></span>
-                        <span class="navailable"><i class="fa fa-times"></i> <?= Yii::t('app', 'Холодильник')?></span>
-                        <span class="navailable"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Кабельное ТВ')?></span>
-                        <span class="available"><i class="fa fa-check-square"></i> <?= Yii::t('app', 'Видеонаблюдение')?></span>
-<!--                        <span class="available"><i class="fa fa-check-square"></i> Toaster</span>-->
-<!--                        <span class="navailable"><i class="fa fa-times"></i> Grill</span>-->
-<!--                        <span class="navailable"><i class="fa fa-times"></i> Oven</span>-->
-<!--                        <span class="available"><i class="fa fa-check-square"></i> Fans</span>-->
+                      <?=$obj->coditioning?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?> <?= Yii::t('app', 'Кондиционер')?></span>
+                        <?=$obj->heating?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?> <?= Yii::t('app', 'Отопление')?></span>
+                        <?=$obj->balcony?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Балкон')?></span>
+                        <?=$obj->dishwasher?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Посудомойная машина')?></span>
+                        <?=$obj->pool?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?> <?= Yii::t('app', 'Басейн')?></span>
+                        <?=$obj->internet?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Интернет')?></span>
+                        <?=$obj->terrace?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Терасса')?></span>
+                        <?=$obj->microwave?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Микроволновка')?></span>
+                        <?=$obj->fridge?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?> <?= Yii::t('app', 'Холодильник')?></span>
+                        <?=$obj->cable_tv?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Кабельное ТВ')?></span>
+                        <?=$obj->security_camera?'<span class="available"><i class="fa fa-check-square"></i>':'<span class="navailable"><i class="fa fa fa-times"></i>'?>  <?= Yii::t('app', 'Видеонаблюдение')?></span>
                     </div>
 
                     <div class="divide30"></div>
                     <h3><?= Yii::t('app', 'Карта')?></h3>
-                    <div id="property-map" style="width:100%;height: 400px;">
-                    </div>
+                    <?php
+//                    $markers = [];
+
+                        $carousel=[];
+                        foreach ($obj->objectImages as $one){
+                            $carousel[]=[
+                                'content' => '<img class="img-responsive" data-bgposition="center center" style="max-height: 175px; margin: 0 auto" style="width:225px;height:175px" src="/uploads/images/property/'.$one->image.'"/>',
+                            ];
+                        }
+                        $c= \yii\bootstrap\Carousel::widget ( [
+                            'items' => $carousel,
+                            'options' => ['class' => 'carousel slide']
+                        ]);
+                        $marker = new \dosamigos\google\maps\overlays\Marker(['title' => $obj->object_name, 'position' => new \dosamigos\google\maps\LatLng(['lat' => $obj->lt, 'lng' => $obj->lg]), 'icon'=>'/img/estate/pin.png']);
+                        $content = '<h4>' . \yii\helpers\Html::a($obj->object_name, ['/location/view', 'id' => $obj->id]) .'</h4><hr><p>'.$obj->operation->operation_name.'</p>'. $c;
+                        $marker->attachInfoWindow(new \dosamigos\google\maps\overlays\InfoWindow(['content' => $content]));
+//                        $markers[] = $marker;
+                    $coord = new \dosamigos\google\maps\LatLng(['lat' => $obj->lt, 'lng' => $obj->lg]);
+//                    $bounds = \dosamigos\google\maps\LatLngBounds::getBoundsOfMarkers($marker);
+                    $map = new \dosamigos\google\maps\Map(['center' => $coord, 'zoom' => 14, 'width' => '100%', 'height' => '100%']);
+//                    foreach ($markers as $marker) {
+                        $map->addOverlay($marker);
+//                    }
+                    echo $map->display();
+                    ?>
                     <div class="divide60"></div>
 
                 </div><!--content col-->
@@ -106,84 +119,44 @@ $this->title = Yii::t('app', 'Объект');
                     </div><!--sidebar box-->
                     <div class="sidebar-box">
                         <h3><?= Yii::t('app', 'Недавно добавили')?></h3>
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/estate/sm-1.jpg" width="100" alt="propety">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><?= Yii::t('app', 'Адрес')?></a></h4>
-                                <em><?= Yii::t('app', 'Город')?></em>
-                                <a href="/site/propertydetail" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
-                            </div>
-                        </div><!--media-->
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/estate/sm-1.jpg" width="100" alt="propety">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><?= Yii::t('app', 'Адрес')?></a></h4>
-                                <em><?= Yii::t('app', 'Город')?></em>
-                                <a href="/site/propertydetail" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
-                            </div>
-                        </div><!--media-->
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/estate/sm-1.jpg" width="100" alt="propety">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><?= Yii::t('app', 'Адрес')?></a></h4>
-                                <em><?= Yii::t('app', 'Город')?></em>
-                                <a href="/site/propertydetail" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
-                            </div>
-                        </div><!--media-->
+                        <?php foreach ($newobjects as $one):?>
+                            <div class="media">
+                                <div class="media-left">
+                                    <div class="image">
+                                        <div class="content">
+                                            <img src="/uploads/images/property/<?=$one->mainImage->image?>" width="100px"/>
+                                        </div><!--content-->
+                                    </div><!--image-->
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><?= $one->operation->operation_name ?></h4>
+                                    <em><?= $one->objectType->object_type_name?></em>
+                                    <a href="<?=Url::to(['/site/propertydetail', 'id'=>$one->id])?>" class="btn btn-default btn-red"><?= Yii::t('app', 'Детали')?></a>
+                                </div>
+                            </div><!--media-->
+                            <?php endforeach; ?>
+
                     </div><!--sidebar box-->
                     <div class="sidebar-box">
                         <h3><?= Yii::t('app', 'Лучшие агенты')?></h3>
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/team-3.jpg" width="70" alt="agent">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="/r-agent-detail.php"><?= Yii::t('app', 'Имя')?></a></h4>
-                                <em>+38 050 999 99 99</em>
-                                <a href="#"><i class="fa fa-envelope"></i> name@red.kiev.ua</a>
-                            </div>
-                        </div><!--media-->
-                        <div class="media">
-                            <div class="media-left">
-                                <div class="image">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-search-plus"></i></a>
-                                        <img src="/img/team-1.jpg" width="70" alt="agent">
-                                    </div><!--content-->
-                                </div><!--image-->
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="/r-agent-detail.php"><?= Yii::t('app', 'Имя')?></a></h4>
-                                <em>+38 067 111 11 11</em>
-                                <a href="#"><i class="fa fa-envelope"></i> name@red.kiev.ua</a>
-                            </div>
-                        </div><!--media-->
+                        <?php $i=0; foreach ($agents as $agent):
+                            if($i==2) break;?>
+                            <div class="media">
+                                <div class="media-left">
+                                    <div class="image">
+                                        <div class="content">
+                                            <!--                                        <a href="#"><i class="fa fa-search-plus"></i></a>-->
+                                            <img src="/uploads/images/800x/<?=$agent->user->image?>" width="70" alt="agent">
+                                        </div><!--content-->
+                                    </div><!--image-->
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="<?=\yii\helpers\Url::to(['/site/agentdetail', 'id'=>$agent->id])?>"><?= $agent->name?></a></h4>
+                                    <em><?= $agent->phone?></em>
+                                    <a href="#"><i class="fa fa-envelope"></i> <?= $agent->user->email?></a>
+                                </div>
+                            </div><!--media-->
+                            <?php $i++; endforeach; ?>
                     </div><!--sidebar box-->
                 </div><!--sidebar-->
             </div>
