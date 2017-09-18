@@ -67,7 +67,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['image'], 'string', 'max' => 100],
-            [['file'], 'image'],
+//            [['file'], 'image'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['role'], 'exist', 'skipOnError' => true, 'targetClass' => UserRole::className(), 'targetAttribute' => ['role' => 'id']],

@@ -268,11 +268,11 @@ public function actionAddproperty(){
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->session->setFlash('success',  Yii::t('app', 'Проверьте вашу электронную почту для получения дальнейших инструкций.'));
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'К сожалению, мы не можем сбросить пароль на указанный адрес электронной почты.'));
             }
         }
 
@@ -297,7 +297,7 @@ public function actionAddproperty(){
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Новый парольсохранен.'));
 
             return $this->goHome();
         }
