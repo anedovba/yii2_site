@@ -23,6 +23,31 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
+        'eauth'=>[
+            'class' => 'nodge\eauth\EAuth',
+            'popup' => true,
+            'cache' => false,
+            'cacheExpire' => 0,
+            'httpClient' => [
+                // uncomment this to use streams in safe_mode
+                //'useStreamsFallback' => true,
+            ],
+            'services' =>[
+                'google_oauth' => [
+                    // register your app here: https://code.google.com/apis/console/
+                    'class' => 'nodge\eauth\services\GoogleOAuth2Service',
+                    'clientId' => '598850333846-3ug79p24sdtous07bmukoutudhb0bbnm.apps.googleusercontent.com',
+                    'clientSecret' => 'OyNTdOhsifNxM7KztsbT2sk8',
+                    'title' => 'Google (OAuth)',
+                ],
+                'facebook' => [
+                    // register your app here: https://developers.facebook.com/apps/
+                    'class' => 'nodge\eauth\services\FacebookOAuth2Service',
+                    'clientId' => '150939452166147',
+                    'clientSecret' => '02a0df25956df56a6a7dcbe91c2961a9',
+                ],
+            ],
+        ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
@@ -40,7 +65,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
-//            [
+
             'class' => 'codemix\localeurls\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -51,26 +76,8 @@ return [
                 'propertydetail/<id:[0-9]+>'=>'site/propertydetail',
                 'propertylisting/<page:[0-9]+>'=>'site/propertylisting',
                 'agentdetail/<id:[0-9]+>'=>'site/agentdetail',
+//                'login/<service:google|facebook|etc>' => 'site/login',
             ],
-//],
-//            ['class' => 'lav45\translate\web\UrlManager',
-//            'enablePrettyUrl' => true,
-//            'showScriptName' => false,
-//            'rules' => [
-//                [
-//                    'class' => 'yii\web\UrlRule', // If there is no need to substitute the language, you can use the base class
-//                    'pattern' => '',
-//                    'route' => 'site/index',
-//                ],
-//                [
-//                    'pattern' => '<_lang:' . Lang::PATTERN . '>/<id:\d+>',
-//                    'route' => 'site/view',
-//                ],
-//                [
-//                    'pattern' => '<_lang:' . Lang::PATTERN . '>',
-//                    'route' => 'site/index',
-//                ]
-//            ],]
         ],
         'i18n' => [
             'translations' => [
@@ -83,8 +90,13 @@ return [
                         //'app/error' => 'error.php',
                     ],
                 ],
+                'eauth' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@eauth/messages',
+                ],
             ],
         ],
+
     ],
     'params' => $params,
 ];

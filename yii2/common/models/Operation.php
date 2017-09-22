@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-use yii\base\Object;
+use common\models\Object;
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
 use lav45\translate\TranslatedBehavior;

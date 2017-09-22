@@ -39,8 +39,9 @@ $this->title = Yii::t('app', 'Вход');
                 <div class="form-bottom">
                     <p><?= Yii::t('app', 'Войти через социальную сеть')?></p>
                     <div class="social-buttons">
+<!--                        --><?php //echo \nodge\eauth\Widget::widget(['action' => 'site/login']); ?>
                         <a href="#" class="facebook social-btn"><i class="fa fa-facebook"></i> Facebook</a>
-                        <a href="#" class="g-plus social-btn"><i class="fa fa-google-plus"></i> Google +</a>
+                        <a href="/site/login?service=google_oauth" class="g-plus social-btn"><i class="fa fa-google-plus"></i> Google +</a>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>

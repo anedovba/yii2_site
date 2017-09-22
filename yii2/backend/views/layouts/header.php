@@ -25,21 +25,21 @@ AppAsset::register($this);
 
 
         <li class="pull-left">
-            <a href="/user" >
+            <a href="/admin/user" >
                 <i class="fa fa-user"></i>
                 Пользователи
 <!--                <span class="label label-success">4</span>-->
             </a>
         </li>
             <li class="pull-left">
-                <a href="/agent" >
+                <a href="/admin/agent" >
                     <i class="fa fa-user-circle"></i>
                     Агенты
                     <!--                <span class="label label-success">4</span>-->
                 </a>
             </li>
             <li class="pull-left">
-                <a href="/object" >
+                <a href="/admin/object" >
                     <i class="fa fa-home"></i>
                     Объекты
                     <!--                <span class="label label-success">4</span>-->
