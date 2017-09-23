@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\Agents;
+use common\models\User;
+use common\models\Auth;
 use common\models\Blog;
 use common\models\ObjectType;
 use common\models\Operation;
@@ -23,7 +25,7 @@ use lav45\translate\models\Lang;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
-
+use yii\authclient\AuthAction;
 /**
  * Site controller
  */
@@ -51,6 +53,10 @@ class SiteController extends Controller
                     ],
                 ],
             ],
+            'eauth' =>[
+                'class' => \nodge\eauth\openid\ControllerBehavior::className(),
+                'only' => array('login'),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -72,6 +78,10 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'onAuthSuccess'],
             ],
         ];
     }
@@ -102,13 +112,13 @@ class SiteController extends Controller
         return $this->render('propertydetail', ['obj' => $obj,'newobjects'=>$newobjects, 'agents'=>$agents,]);
     }
 
-public function actionBlog(){
+    public function actionBlog(){
         return $this->render('blog');
     }
     public function actionFaqs(){
         return $this->render('faqs');
     }
-public function actionAddproperty(){
+    public function actionAddproperty(){
         return $this->render('addproperty');
     }
 
@@ -139,6 +149,114 @@ public function actionAddproperty(){
         return $this->render('propertylisting', ['types'=>$types, 'operations'=>$operations, 'objects'=>$models, 'newobjects'=>$newobjects, 'agents'=>$agents,  'pages' => $pages, ]);
     }
 
+    public function onAuthSuccess($client)
+    {
+        $attributes = $client->getUserAttributes();
+
+        /* @var $auth Auth */
+        $auth = Auth::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+        // vd($auth['source']);
+        // die;
+        if (Yii::$app->user->isGuest) {
+            if ($auth) { // авторизация
+                $user = $auth->user;
+                Yii::$app->user->login($user);
+            } else { // регистрация
+                if($client->getId()=='facebook'){
+                    if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
+                        Yii::$app->getSession()->setFlash('error', [
+                            Yii::t('app', "Пользователь с такой электронной почтой как в {client} уже существует, но с ним не связан. Войдите на сайт используя электронную почту", ['client' => $client->getTitle()]),
+                        ]);
+                    } else {
+
+                        $password = Yii::$app->security->generateRandomString(6);
+                        $user = new User([
+                            'username' => $attributes['name'],
+                            'email' => $attributes['email'],
+                            'password' => $password,
+                            'created_at'=>strtotime("now"),
+                            'updated_at'=> strtotime("now"),
+                        ]);
+                        $user->generateAuthKey();
+                        $user->generatePasswordResetToken();
+                        $transaction = $user->getDb()->beginTransaction();
+                        if ($user->save()) {
+
+                            $auth = new Auth([
+                                'user_id' => $user->id,
+                                'source' => $client->getId(),
+                                'source_id' => (string)$attributes['id'],
+                            ]);
+                            if ($auth->save()) {
+                                $transaction->commit();
+                                Yii::$app->user->login($user);
+                            } else {
+
+                                vd($auth->getErrors());
+                                die;
+                            }
+                        } else {
+                            vd($user->getErrors());
+                            die;
+                        }
+                    }
+                }
+                else{
+                    if (isset($attributes['emails'][0]['value']) && User::find()->where(['email' => $attributes['emails'][0]['value']])->exists()) {
+                        Yii::$app->getSession()->setFlash('error', [
+                            Yii::t('app', "Пользователь с такой электронной почтой как в {client} уже существует, но с ним не связан. Войдите на сайт использую электронную почту", ['client' => $client->getTitle()]),
+                        ]);
+
+                    }
+                    else {
+
+                        $password = Yii::$app->security->generateRandomString(6);
+                        $user = new User([
+                            'username' => $attributes['displayName'],
+                            'email' => $attributes['emails'][0]['value'],
+                            'password' => $password,
+                            'created_at'=>strtotime("now"),
+                            'updated_at'=> strtotime("now"),
+                        ]);
+                        $user->generateAuthKey();
+                        $user->generatePasswordResetToken();
+                        $transaction = $user->getDb()->beginTransaction();
+                        if ($user->save()) {
+
+                            $auth = new Auth([
+                                'user_id' => $user->id,
+                                'source' => $client->getId(),
+                                'source_id' => (string)$attributes['id'],
+                            ]);
+                            if ($auth->save()) {
+                                $transaction->commit();
+                                Yii::$app->user->login($user);
+                            } else {
+
+                                vd($auth->getErrors());
+                                die;
+                            }
+                        } else {
+                            vd($user->getErrors());
+                            die;
+                        }
+                    }
+                }
+            }
+        } else { // Пользователь уже зарегистрирован
+            if (!$auth) { // добавляем внешний сервис аутентификации
+                $auth = new Auth([
+                    'user_id' => Yii::$app->user->id,
+                    'source' => $client->getId(),
+                    'source_id' => $attributes['id'],
+                ]);
+                $auth->save();
+            }
+        }
+    }
     /**
      * Logs in a user.
      *
