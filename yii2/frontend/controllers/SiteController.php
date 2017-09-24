@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Agents;
+use common\models\Tag;
 use common\models\User;
 use common\models\Auth;
 use common\models\Blog;
@@ -10,6 +11,7 @@ use common\models\Operation;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -95,8 +97,8 @@ class SiteController extends Controller
     {
         $agents=Agent::find()->all();
         $types=ObjectType::find()->all();
-        $objects=Object::find()->orderBy(['id'=>SORT_DESC])->limit(3)->all();
-        $topobjects=Object::find()->andWhere(['top'=>1])->orderBy(['id'=>SORT_DESC])->all();
+        $objects=Object::find()->where(['status'=>1])->orderBy(['id'=>SORT_DESC])->limit(3)->all();
+        $topobjects=Object::find()->where(['status'=>1])->andWhere(['top'=>1])->orderBy(['id'=>SORT_DESC])->all();
         $operations=Operation::find()->all();
 //        return $this->render('index', ['blogs'=>$blogs]);//передаем во вью
         return $this->render('index', ['agents'=>$agents, 'objects'=>$objects, 'types'=>$types,  'operations'=>$operations, 'topobjects'=>$topobjects]);//передаем во вью
@@ -104,7 +106,7 @@ class SiteController extends Controller
     }
 
     public function actionPropertydetail(){
-        $newobjects=Object::find()->orderBy(['id'=>SORT_DESC])->limit(3)->all();
+        $newobjects=Object::find()->where(['status'=>1])->orderBy(['id'=>SORT_DESC])->limit(3)->all();
         $id=Yii::$app->request->get('id');
         $obj=Object::findOne($id);
         $agents=Agent::find()->all();
@@ -119,12 +121,33 @@ class SiteController extends Controller
         return $this->render('faqs');
     }
     public function actionAddproperty(){
-        return $this->render('addproperty');
+        $model=new Object();
+        if ($model->load(Yii::$app->request->post())) {
+//            vd(Yii::$app->request->post());
+//            die;
+            $model->attributes=Yii::$app->request->post();
+            $model->status=0;
+            $tags=Tag::find()->all();
+            $model->tags_array=ArrayHelper::map($tags, 'id', 'id');
+            $model->created_at=strtotime('now');
+            $model-> agent_id=10;
+//            vd($model);
+//            die;
+            if($model->save()){
+                Yii::$app->getSession()->setFlash('error', [
+                    Yii::t('app', "Объект сохранен и в ближайшее время появится на сайте"),
+                ]);
+                return $this->refresh();
+            }
+        }
+
+        return $this->render('addproperty', ['model'=>$model]);
+
     }
 
     public function actionAgentdetail($id){
-        $newobjects=Object::find()->all();
-        $agentobjects=Object::find()->andWhere(['agent_id'=>$id])->all();
+        $newobjects=Object::find()->where(['status'=>1])->all();
+        $agentobjects=Object::find()->where(['status'=>1])->andWhere(['agent_id'=>$id])->all();
         if($agent=Agent::find()->andWhere(['id'=>$id])->one()){
             return $this->render('agentdetail', ['agent'=>$agent,'newobjects'=>$newobjects, 'agentobjects'=>$agentobjects]);//передаем во вью
         }
@@ -132,14 +155,18 @@ class SiteController extends Controller
     }
 
     public function actionPropertylisting(){
+        if(Yii::$app->request->get('page_size')){
+            $page_size=Yii::$app->request->get('page_size');
+        }
+        else $page_size=1;
         $types=ObjectType::find()->all();
         $operations=Operation::find()->all();
-        $objects=Object::find();
-        $newobjects=Object::find()->orderBy(['id'=>SORT_DESC])->limit(20)->all();
+        $objects=Object::find()->where(['status'=>1]);
+        $newobjects=Object::find()->where(['status'=>1])->orderBy(['id'=>SORT_DESC])->limit(20)->all();
         $agents=Agent::find()->all();
         $countQuery = clone $objects;
         // подключаем класс Pagination, выводим по 10 пунктов на страницу
-        $pages = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+        $pages = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => $page_size]);
         // приводим параметры в ссылке к ЧПУ
         $pages->pageSizeParam = false;
         $pages->forcePageParam = false;

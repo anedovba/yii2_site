@@ -84,8 +84,7 @@ return [
                 'dosamigos\google\maps\MapAsset' => [
                     'options' => [
                         'key' => 'AIzaSyBDZFHf0n9jmDWlWRjMBwtYiOxfEwVsuEY',
-                        'language' => 'id',
-                        'version' => '3.1.18'
+                        'callback'=>'initMap'
                     ]
                 ]
             ]

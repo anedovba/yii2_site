@@ -7,12 +7,25 @@
 /* @var $newobjects \common\models\Object */
 /* @var $agents \common\models\Agent */
 
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use \yii\helpers\Url;
 use yii\widgets\LinkPager;
 
 $this->title = Yii::t('app', 'Объекты');
 ?>
+<style>
+    .page_size {
+        font-size: 14px !important;
+        font-weight: normal !important;
+        color: #EA0000 !important;
+        min-height: 34px !important;
+        margin-top: 20px;
+        border-radius: 4px;
+        background-color: #eee !important;
+    }
+
+</style>
         <div class="divide70"></div>
         <div class="container">
             <div class="row">
@@ -128,7 +141,19 @@ $this->title = Yii::t('app', 'Объекты');
                                 'options'=>['class'=>'pagination pull-right']
                             ]);
                             ?>
-                    </nav><!--pagination-->
+<?php $form= ActiveForm::begin(['action' => [''],'method' => 'get']); ?>
+<?=Html::dropDownList('page_size', $pages->pageSize,  [
+    '1' => '1',
+    '2' => '2',
+    '3' => '3',
+    '4' => '4',
+], ['prompt' => '--- per page ---', 'onchange'=>'this.form.submit()', 'class'=>'page_size'])?>
+
+
+
+<?php ActiveForm::end();?>
+
+</nav><!--pagination-->
                     <div class="clearfix"></div>
                 </div>
             </div>

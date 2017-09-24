@@ -307,4 +307,17 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(UserStatus::className(), ['id' => 'status']);
     }
+    public static function getSubscribeList(){
+
+        return ['да', 'нет'];
+    }
+
+    public function getSubscribeName(){
+        $list=$this->getSubscribeList();
+        return $list[$this->subscribe];
+    }
+    public function getRole0()
+    {
+        return $this->hasOne(UserRole::className(), ['id' => 'role']);
+    }
 }
